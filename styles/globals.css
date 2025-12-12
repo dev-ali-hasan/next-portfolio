@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #09090b;
+  --secondary: #121215;
+  --tertiary: #22c55ecc;
+
+  --text-primary: #fafafa;
+  --text-muted: #fcfdffc5;
+  --text-secondary: #09090b;
+  --text-tertiary: #22c55e;
+
+  --border-primary: #22c55e;
+  --border-secondary: #d1d5db42;
+}
+
+@theme inline {
+  --font-primary: "Inter", sans-serif;
+  --font-secondary: "Open Sans", sans-serif;
+
+  --bg-primary: var(--primary);
+  --bg-secondary: var(--secondary);
+  --bg-tertiary: var(--tertiary);
+
+  --text-primary: var(--text-primary);
+  --text-secondary: var(--text-secondary);
+  --text-tertiary: var(--text-tertiary);
+
+  --border-primary: var(--border-primary);
+  --border-secondary: var(--border-secondary);
+}
+
+body {
+  background-color: var(--primary);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+}
+.container {
+  max-width: (1400px, 90%);
+  margin: 0 auto;
+}
+
+.about_svg {
+  margin-right: 10px;
+  animation: rotate360 12s linear infinite;
+}
+
+
+.animate-scroll-left {
+  animation: scroll-left 40s linear infinite;
+}
+
+.animate-scroll-right {
+  animation: scroll-right 40s linear infinite;
+}
+
+.animate-scroll-left:hover,
+.animate-scroll-right:hover {
+  animation-play-state: paused;
+}
