@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { Skill } from "@/type/skill/skillContent";
 import { skillContent } from "@/content/skillContent";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function shuffleArray<T>(array: T[]): T[] {
   const copy = [...array];
@@ -19,11 +22,49 @@ export default function SkillComponent() {
   const row1Ref = useRef<HTMLDivElement | null>(null);
   const row2Ref = useRef<HTMLDivElement | null>(null);
   const row3Ref = useRef<HTMLDivElement | null>(null);
+  const skillSvgRef = useRef<SVGSVGElement | null>(null);
 
   const [mounted, setMounted] = useState(false);
   const [row1, setRow1] = useState<Skill[]>([]);
   const [row2, setRow2] = useState<Skill[]>([]);
   const [row3, setRow3] = useState<Skill[]>([]);
+
+  useEffect(() => {
+    if (!skillSvgRef.current) return;
+
+    const paths = skillSvgRef.current.querySelectorAll("path");
+
+    gsap.set(paths, { opacity: 0 });
+
+    const tl = gsap.timeline({
+      repeat: -1,
+      repeatDelay: 1,
+      scrollTrigger: {
+        trigger: skillSvgRef.current,
+        start: "top 85%",
+      },
+    });
+
+    tl.to(paths, {
+      opacity: 1,
+      duration: 0.6,
+      stagger: 0.4,
+      ease: "power2.out",
+    }).to(
+      paths,
+      {
+        opacity: 0,
+        duration: 0.4,
+        stagger: 0.3,
+        ease: "power2.in",
+      },
+      "+=1"
+    );
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -37,15 +78,15 @@ export default function SkillComponent() {
     if (!mounted) return;
 
     const animateRow = (
-      element: HTMLDivElement | null,
+      el: HTMLDivElement | null,
       direction: "left" | "right",
       duration: number
     ) => {
-      if (!element) return;
-      const width = element.scrollWidth / 2;
+      if (!el) return;
+      const width = el.scrollWidth / 2;
 
       gsap.fromTo(
-        element,
+        el,
         { x: direction === "left" ? 0 : -width },
         {
           x: direction === "left" ? -width : 0,
@@ -60,11 +101,11 @@ export default function SkillComponent() {
     };
 
     animateRow(row1Ref.current, "left", 70);
-    animateRow(row2Ref.current, "right", 72);
-    animateRow(row3Ref.current, "left", 60);
+    animateRow(row2Ref.current, "right", 75);
+    animateRow(row3Ref.current, "left", 65);
   }, [mounted]);
 
-  if (!mounted) return null;
+  
 
   const renderItems = (items: Skill[]) =>
     [...items, ...items].map((item, index) => (
@@ -84,7 +125,8 @@ export default function SkillComponent() {
     ));
 
   return (
-    <div className="pt-24 pb-16 bg-(--bg-primary) space-y-8">
+    <section className="pt-36 pb-20 bg-(--bg-primary) space-y-10 overflow-hidden">
+      
       <div className="text-center">
         <div className="relative inline-block">
           <div className="absolute -top-10 -left-16">
@@ -94,6 +136,7 @@ export default function SkillComponent() {
               height="74"
               viewBox="0 0 68 74"
               fill="none"
+              ref={skillSvgRef}
             >
               <path
                 fillRule="evenodd"
@@ -115,17 +158,23 @@ export default function SkillComponent() {
               ></path>
             </svg>
           </div>
-          <h2 className="text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">My Skills</h2>
+
+          <h2 className="text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
+            My Skills
+          </h2>
         </div>
-        <p className="text-lg text-(--text-muted) max-w-5xl mx-auto">
-          Modern frontend development using React, Next.js, Vue, and Nuxt,
-          focused on responsive design, clean UI components, performance
-          optimization, and scalable, maintainable web application architecture.
+
+        <p className="text-(--text-muted) max-w-4xl mx-auto mt-4">
+          Modern frontend development using React, Next.js, Vue, and Nuxt with
+          performance-focused, scalable UI architecture.
         </p>
       </div>
-      <div className="relative w-full  overflow-hidden">
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-[600px] bg-linear-to-r from-(--bg-primary) to-transparent z-20" />
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-[600px] bg-linear-to-l from-(--bg-primary) to-transparent z-20" />
+     
+     
+      <div className="relative w-full">
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-[500px] bg-linear-to-r from-(--bg-primary) to-transparent z-20" />
+
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-[500px] bg-linear-to-l from-(--bg-primary) to-transparent z-20" />
 
         <div className="space-y-4">
           <div ref={row1Ref} className="flex gap-3 w-max">
@@ -139,6 +188,6 @@ export default function SkillComponent() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

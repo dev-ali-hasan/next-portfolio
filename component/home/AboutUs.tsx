@@ -15,6 +15,7 @@ export default function AboutPage() {
 
   const itemRefs = useRef<HTMLDivElement[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
   gsap.registerPlugin(ScrollTrigger);
 
   const filteredContent = aboutContent.filter(
@@ -77,7 +78,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div className="w-full py-12 px-4 bg-(--bg-secondary) text-(--text-primary)">
+    <div className="w-full py-20 px-4 bg-(--bg-secondary) text-(--text-primary)">
       <div className="container">
         <div ref={containerRef} className=" flex items-center flex-col">
           <div className="flex items-center justify-center gap-2 px-5 py-2 bg-(--bg-tertiary)/10 border border-(--border-primary) w-fit rounded-[70px] border-dashed">

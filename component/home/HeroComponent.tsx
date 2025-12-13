@@ -82,7 +82,7 @@ export default function HeroComponent() {
 
   return (
     <section
-      className=" container relative"
+      className=" container relative bg-(--bg-primary)"
       style={{ backgroundImage: "url('/introShape1_2.webp')" }}
     >
       <svg
