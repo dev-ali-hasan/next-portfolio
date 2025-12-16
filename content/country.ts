@@ -1,11 +1,5 @@
-export interface CountryList {
-  name: string;
-  code: string;
-  flag: string;
-  dial: string;
-  minLength: number;
-  maxLength: number;
-}
+import { CountryList } from "@/type/contact/contactUs";
+
 export const countryList: CountryList[] = [
   {
     name: "Afghanistan",

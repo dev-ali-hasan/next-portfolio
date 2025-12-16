@@ -16,7 +16,7 @@ import InputField from "../share/Input";
 import { countryList } from "@/content/country";
 import moment from "moment-timezone";
 import { tzToCountry } from "@/utils/tzToCountry";
-import { useErrors } from "@/utils/useErrors";
+import { useErrors } from "@/hooks/useErrors";
 import { ContactSchema } from "@/schema/ContactSchema";
 
 function ContactComponent() {
@@ -24,7 +24,7 @@ function ContactComponent() {
   const leftRef = useRef<HTMLDivElement | null>(null);
   const timezone = moment.tz.guess();
 
-  let defaultCountry =
+  const defaultCountry =
     tzToCountry[timezone as keyof typeof tzToCountry] || "US";
 
   const [selectedCountry, setSelectedCountry] = useState(
@@ -100,6 +100,7 @@ function ContactComponent() {
         countryList.find((country) => country.code === form.country) ??
         selectedCountry;
 
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setForm((prev) => ({
         ...prev,
         dialCode: selectCountry.dial,

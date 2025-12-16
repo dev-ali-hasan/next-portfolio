@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-import "@/styles/keyframe.css";
+import "@/styles/slider.css";
 
 import { Inter, Open_Sans } from "next/font/google";
 import Navbar from "@/component/layout/Navber";

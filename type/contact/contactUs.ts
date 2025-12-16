@@ -21,3 +21,12 @@ export interface SelectOption {
   label: string;
   value: string;
 }
+
+export interface CountryList {
+  name: string;
+  code: string;
+  flag: string;
+  dial: string;
+  minLength: number;
+  maxLength: number;
+}
