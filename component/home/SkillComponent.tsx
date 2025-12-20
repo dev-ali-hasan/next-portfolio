@@ -111,23 +111,23 @@ export default function SkillComponent() {
     [...items, ...items].map((item, index) => (
       <div
         key={`${item.title}-${index}`}
-        className="flex items-center gap-3 bg-(--text-primary) px-8 py-2 rounded-lg text-(--bg-primary) shrink-0"
+        className="flex items-center gap-2 md:gap-3 bg-(--text-primary) px-4 md:px-8 py-2 rounded-lg text-(--bg-primary) shrink-0"
       >
         <Image
           src={item.icon}
           alt={item.title}
           width={48}
           height={48}
-          className="w-12 h-12"
+          className="w-8 h-8 md:w-12 md:h-12"
         />
         <span className="font-medium whitespace-nowrap">{item.title}</span>
       </div>
     ));
 
   return (
-    <section className="pt-36 pb-20 bg-(--bg-primary) space-y-10 overflow-hidden">
+    <section className="pt-20 lg:pt-36 pb-12 lg:pb-20 bg-(--bg-primary) space-y-10 overflow-hidden">
       
-      <div className="text-center">
+      <div className="text-center container pb-5 md:pb-10">
         <div className="relative inline-block">
           <div className="absolute -top-10 -left-16">
             <svg
@@ -159,7 +159,7 @@ export default function SkillComponent() {
             </svg>
           </div>
 
-          <h2 className="text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
             My Skills
           </h2>
         </div>
@@ -172,18 +172,18 @@ export default function SkillComponent() {
      
      
       <div className="relative w-full">
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-[500px] bg-linear-to-r from-(--bg-primary) to-transparent z-20" />
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-[150px] sm:w-[300px] lg:w-[500px] bg-linear-to-r from-(--bg-primary) to-transparent z-20" />
 
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-[500px] bg-linear-to-l from-(--bg-primary) to-transparent z-20" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-[150px] sm:w-[300px] lg:w-[500px] bg-linear-to-l from-(--bg-primary) to-transparent z-20" />
 
         <div className="space-y-4">
-          <div ref={row1Ref} className="flex gap-3 w-max">
+          <div ref={row1Ref} className="flex gap-2 md:gap-3 w-max">
             {renderItems(row1)}
           </div>
-          <div ref={row2Ref} className="flex gap-3 w-max">
+          <div ref={row2Ref} className="flex gap-2 md:gap-3 w-max">
             {renderItems(row2)}
           </div>
-          <div ref={row3Ref} className="flex gap-3 w-max">
+          <div ref={row3Ref} className="flex gap-2 md:gap-3 w-max">
             {renderItems(row3)}
           </div>
         </div>

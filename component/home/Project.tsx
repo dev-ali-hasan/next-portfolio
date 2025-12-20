@@ -36,7 +36,7 @@ function ProjectComponent() {
       </div>
 
       <div className="container relative z-10 py-20 px-4">
-        <div className="flex items-center justify-between gap-5 pb-16">
+        <div className="flex items-center justify-between flex-col md:flex-row gap-5 pb-8 md:pb-16">
           <div>
             <div className="flex items-center gap-2">
               <svg
@@ -53,7 +53,7 @@ function ProjectComponent() {
                 />
               </svg>
 
-              <span className="text-3xl font-semibold">
+              <span className="text-xl md:text-3xl font-semibold">
                 Highlighted Projects
               </span>
             </div>
@@ -67,7 +67,7 @@ function ProjectComponent() {
               come together to deliver real results.
             </p>
           </div>
-          <div className="flex items-center justify-end gap-5">
+          <div className="flex items-center justify-end gap-3 lg:gap-5">
             <button
               onClick={() => {
                 if (!swiperRef.current) return;
@@ -104,7 +104,8 @@ function ProjectComponent() {
           }}
           breakpoints={{
             0: { slidesPerView: 1 },
-            768: { slidesPerView: 2 },
+            768: { slidesPerView: 1.5 },
+            1024: { slidesPerView: 2 },
             1200: { slidesPerView: 3 },
           }}
           className="services-slider"
@@ -126,10 +127,10 @@ function ProjectComponent() {
                 </div>
 
                 <div className="p-5 flex flex-col flex-1 bg-(--bg-primary)">
-                  <span className="text-2xl font-semibold mb-2 block">
+                  <span className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 block">
                     {project.title}
                   </span>
-                  <p className="text-lg text-(--text-muted)">
+                  <p className="text-[13px] md:text-lg text-(--text-muted)">
                     {project.description}
                   </p>
                 </div>

@@ -95,7 +95,6 @@ function ContactComponent() {
 
   useEffect(() => {
     if (form.country) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       const selectCountry =
         countryList.find((country) => country.code === form.country) ??
         selectedCountry;
@@ -107,7 +106,7 @@ function ContactComponent() {
       }));
       setSelectedCountry(selectCountry);
     }
-  }, [form.country]);
+  }, [form.country, selectedCountry]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -142,7 +141,7 @@ function ContactComponent() {
               />
             </svg>
 
-            <span className="text-3xl font-semibold text-center">
+            <span className="text-xl md:text-3xl font-semibold text-center">
               Contact With Me
             </span>
           </div>
@@ -153,13 +152,11 @@ function ContactComponent() {
             and I’ll get back
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* LEFT PANEL */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 xl:gap-4">
           <div
             ref={leftRef}
-            className="bg-[#0b0f16] rounded-2xl p-6 space-y-6 shadow-xl"
+            className="bg-[#0b0f16] rounded-2xl p-6 space-y-6 shadow-xl mb-4"
           >
-            {/* Profile */}
             <div className="flex gap-4 items-center">
               <Image
                 src="/profile.jpg"
@@ -170,17 +167,17 @@ function ContactComponent() {
               />
               <div>
                 <div className="flex items-center justify-center gap-2 px-5 py-2 bg-(--bg-tertiary)/10 border border-(--border-primary) w-fit rounded-[70px] border-dashed text-sm">
-                  <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-(--bg-tertiary) animate-pulse" />
                   Available To Work
                 </div>
-                <div className="text-xl font-semibold text-white pt-2 pb-0.5">
-                  Arman Hossain Somoy
+                <div className="text-lg md:text-xl font-semibold pt-2 pb-0.5">
+                  Ali Hasan
                 </div>
-                <p className="text-sm text-gray-400">Senior UI/UX Designer</p>
+                <p className="text-[13px]  sm:text-[16px] text-(--text-muted)">Frontend Developer</p>
               </div>
             </div>
 
-            <SocialCard icon={<Mail />} title="Email" value="me@besomoy.com" />
+            <SocialCard icon={<Mail />} title="Email" value="developeralihasan777@gmail.com" />
             <SocialCard
               icon={<Linkedin />}
               title="LinkedIn"
@@ -205,7 +202,7 @@ function ContactComponent() {
                 errors.clear((event.target as HTMLInputElement).name)
               }
             >
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                 <InputField
                   label="Name"
                   placeholder="Your Name"

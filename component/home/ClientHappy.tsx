@@ -29,7 +29,7 @@ function ClientHappy() {
 
   return (
     <section
-      className="text-(--text-primary) w-full py-20 px-4"
+      className="text-(--text-primary) w-full py-12 md:py-20 px-4"
       style={{
         backgroundImage: "url('/countup.svg')",
         backgroundRepeat: "no-repeat",
@@ -38,26 +38,26 @@ function ClientHappy() {
     >
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-4xl font-bold mb-4">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-4">
             Trusted by clients around the world
           </h2>
-          <p className="text-(--text-muted) text-lg">
+          <p className="text-(--text-muted) text-[13px] sm:text-lg">
             We build dependable and scalable digital products designed to
             support long-term business growth.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
           {stats.map((item) => (
             <div
               key={item.label}
               ref={item.counter.ref}
-              className="flex flex-col items-center justify-center bg-(--bg-primary) rounded-2xl p-8 border border-(--border-primary) transition hover:shadow-lg"
+              className="flex flex-col items-center justify-center bg-(--bg-primary) rounded-xl md:rounded-2xl p-8 border border-(--border-primary) transition hover:shadow-lg"
             >
-              <div className="text-4xl font-bold text-(--text-tertiary)">
+              <div className="text-xl sm:text-2xl md:text-4xl font-bold text-(--text-tertiary)">
                 {item.counter.value} +
               </div>
-              <div className="mt-2 text-lg text-center text-(--text-muted)">
+              <div className="mt-2 text-[13px] sm:text-lg text-center text-(--text-muted)">
                 {item.label}
               </div>
             </div>

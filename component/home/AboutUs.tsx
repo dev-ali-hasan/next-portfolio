@@ -78,7 +78,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div className="w-full py-20 px-4 bg-(--bg-secondary) text-(--text-primary)">
+    <div className="w-full py-12 md:py-20 px-4 bg-(--bg-secondary) text-(--text-primary)">
       <div className="container">
         <div ref={containerRef} className=" flex items-center flex-col">
           <div className="flex items-center justify-center gap-2 px-5 py-2 bg-(--bg-tertiary)/10 border border-(--border-primary) w-fit rounded-[70px] border-dashed">
@@ -96,18 +96,18 @@ export default function AboutPage() {
               />
             </svg>
 
-            <span className="text-3xl font-semibold text-center">About Me</span>
+            <span className="text-xl sm:text-3xl font-semibold text-center">About Me</span>
           </div>
 
-          <p className="text-(--text-muted) mt-4 text-center">
+          <p className="text-(--text-muted) mt-4 text-center text-[13px] sm:text-[16px]">
             A passionate Frontend Developer with{" "}
             <span className="text-(--text-tertiary) font-bold">2+ years</span>{" "}
             of professional experience
           </p>
         </div>
 
-        <div className="mt-12 w-full flex items-center flex-col md:flex-row gap-10">
-          <div className="w-full md:w-[35%] p-6 bg-(--bg-primary) rounded-2xl shadow-lg h-fit">
+        <div className="mt-12 w-full flex items-center flex-col lg:flex-row gap-10">
+          <div className="w-full lg:w-[35%] p-6 bg-(--bg-primary) rounded-2xl shadow-lg h-fit">
             <div
               ref={imgRef}
               className="overflow-hidden rounded-xl "
@@ -127,13 +127,13 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="w-full md:w-[65%]">
-            <div className="flex items-center gap-4 mb-6  rounded-xl">
+          <div className="w-full lg:w-[65%]">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-6  rounded-xl">
               {(["personal", "professional", "education"] as TabKey[]).map(
                 (tab) => (
                   <button
                     key={tab}
-                    className={`px-10 py-2 rounded-4xl font-medium text-(--text-tertiary) transition duration-300 cursor-pointer border  border-(--border-primary) flex items-center gap-3 hover:text-(--text-primary) ${
+                    className={`px-3 py-1 sm:px-5 md:px-10 sm:py-2 rounded-2xl sm:rounded-4xl text-[14px] sm:text-[16px] font-medium text-(--text-tertiary) transition duration-300 cursor-pointer border  border-(--border-primary) flex items-center gap-1 sm:gap-3 hover:text-(--text-primary)  ${
                       activeTab === tab
                         ? "bg-(--bg-tertiary)/70 text-(--text-primary)! hover:bg-(--bg-tertiary) "
                         : "hover:bg-(--bg-tertiary)"
@@ -141,11 +141,11 @@ export default function AboutPage() {
                     onClick={() => setActiveTab(tab)}
                   >
                     {tab === "personal" ? (
-                      <User className="w-5 h-5" />
+                      <User className="w-3 h-3 sm:w-5 sm:h-5" />
                     ) : tab === "professional" ? (
-                      <ShieldCheck className="w-5 h-5" />
+                      <ShieldCheck className="w-3 h-3 sm:w-5 sm:h-5" />
                     ) : (
-                      <GraduationCap className="w-6" />
+                      <GraduationCap className="w-3 sm:w-6" />
                     )}
 
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -154,11 +154,11 @@ export default function AboutPage() {
               )}
             </div>
 
-            <div className="bg-(--bg-primary) px-4 py-6 rounded-2xl border border-(--border-secondary) min-h-[550px] space-y-5">
+            <div className="bg-(--bg-primary) px-4 py-6 rounded-xl md:rounded-2xl border border-(--border-secondary) min-h-[550px] space-y-5">
               {filteredContent.map((content, index) => (
                 <div key={index} ref={addToRefs} className="space-y-1">
-                  <div className="text-2xl font-semibold">{content.title}</div>
-                  <p className="text-(--text-muted)">{content.discretion}</p>
+                  <div className="text-lg sm:text-2xl font-semibold">{content.title}</div>
+                  <p className="text-[13px] sm:text-[16px] text-(--text-muted)">{content.discretion}</p>
                 </div>
               ))}
             </div>

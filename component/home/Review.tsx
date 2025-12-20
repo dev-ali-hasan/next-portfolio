@@ -136,7 +136,7 @@ export default function ReviewComponent() {
 
   return (
     <section
-      className="pt-36 pb-20 bg-(--bg-secondary) space-y-10 overflow-hidden"
+      className="pt-20 lg:pt-36 pb-20 bg-(--bg-secondary) space-y-10 overflow-hidden"
       id="review"
     >
       <div className="text-center container mx-auto px-4 pb-14">
@@ -171,7 +171,7 @@ export default function ReviewComponent() {
             </svg>
           </div>
 
-          <div className="text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
+          <div className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
             Client Experiences & Feedback
           </div>
         </div>
@@ -183,23 +183,23 @@ export default function ReviewComponent() {
         </p>
       </div>
 
-      <div className="relative w-full h-[600px] overflow-hidden container mx-auto">
+      <div className="relative h-[600px] overflow-hidden container">
         <div className="pointer-events-none absolute left-0 top-0 w-full h-24 bg-linear-to-b from-(--bg-secondary) to-transparent z-20" />
         <div className="pointer-events-none absolute left-0 bottom-0 w-full h-24 bg-linear-to-t from-(--bg-secondary) to-transparent z-20" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-full">
-          <div className="overflow-hidden relative h-full">
+          <div className="overflow-hidden relative h-full px-6 sm:px-0">
             <div ref={col1Ref} className="flex flex-col gap-6">
               {renderReviews(col1)}
             </div>
           </div>
           <div className="overflow-hidden relative h-full hidden md:block">
-            <div ref={col2Ref} className="flex flex-col gap-6">
+            <div ref={col2Ref} className="flex flex-col gap-6 px-6 sm:px-0">
               {renderReviews(col2)}
             </div>
           </div>
           <div className="overflow-hidden relative h-full hidden lg:block">
-            <div ref={col3Ref} className="flex flex-col gap-6">
+            <div ref={col3Ref} className="flex flex-col gap-6 px-6 sm:px-0">
               {renderReviews(col3)}
             </div>
           </div>

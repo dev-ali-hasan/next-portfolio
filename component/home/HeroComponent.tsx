@@ -82,17 +82,17 @@ export default function HeroComponent() {
 
   return (
     <section
-      className="w-full bg-(--bg-primary)"
-      style={{ backgroundImage: "url('/heroSection.svg')" }}
+      className="w-full bg-(--bg-primary) overflow-hidden"
+      style={{ backgroundImage: "url('/heroSection.svg')", backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}
     >
       <div className="container grid lg:grid-cols-2 gap-14 items-center pt-30 pb-20 px-5">
         <div>
-          <div className="text-(--text-tertiary) text-sm  mb-4 bg-(--bg-tertiary)/10 w-fit px-3 py-2 rounded-2xl border border-(--border-tertiary)">
+          <div className="text-(--text-tertiary) text-[12px] sm:text-sm  mb-4 bg-(--bg-tertiary)/10 w-fit px-3 py-2 rounded-2xl border border-(--border-tertiary)">
             &gt;_ Available for freelance work
           </div>
           <div
             ref={titleRef}
-            className="text-5xl md:text-6xl font-extrabold tracking-tight leading-tight font-mono"
+            className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight font-mono"
           >
             Frontend Developer <br />
             <span className="text-(--text-tertiary)">with 2+ years</span>
@@ -100,7 +100,10 @@ export default function HeroComponent() {
             <span className="text-(--text-tertiary)">experience</span>
           </div>
 
-          <p ref={subtitleRef} className="mt-6 text-(--text-muted)">
+          <p
+            ref={subtitleRef}
+            className="text-[12px] sm:text-[16px] mt-6 text-(--text-muted)"
+          >
             I specialize in building modern, responsive web applications using{" "}
             <span className="text-(--text-tertiary)">React</span>,{" "}
             <span className="text-(--text-tertiary)">Next</span>, and{" "}
@@ -108,12 +111,12 @@ export default function HeroComponent() {
             transform your ideas into reality.
           </p>
 
-          <div ref={buttonsRef} className="flex gap-4 mt-8">
-            <button className="px-5 py-2 rounded-md bg-(--bg-tertiary) font-medium hover:bg-(--bg-tertiary)/80 text-(--text-primary) transition duration-300 cursor-pointer">
+          <div ref={buttonsRef} className="flex gap-4 flex-wrap mt-8">
+            <button className="px-5 py-2 rounded-md bg-(--bg-tertiary) font-medium hover:bg-(--bg-tertiary)/80 text-(--text-primary) transition duration-300 cursor-pointer w-fit">
               Contact Me
             </button>
 
-            <button className="px-5 py-2 rounded-md border border-(--border-primary) text-(--text-tertiary) hover:bg-(--bg-tertiary) hover:text-(--text-primary) transition duration-300 cursor-pointer">
+            <button className="px-5 py-2 rounded-md border border-(--border-primary) text-(--text-tertiary) hover:bg-(--bg-tertiary) hover:text-(--text-primary) transition duration-300 cursor-pointer w-fit">
               View Project
             </button>
           </div>
@@ -125,7 +128,7 @@ export default function HeroComponent() {
             className="absolute inset-0 w-[320px] h-80 rounded-full bg-(--bg-tertiary)/10 blur-3xl animate-pulse"
           ></div>
 
-          <div className="relative w-72 h-72 rounded-full border border-(--border-primary) p-2">
+          <div className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full border border-(--border-primary) p-2">
             <Image
               src="/profile.jpg"
               alt="profile"
@@ -137,21 +140,21 @@ export default function HeroComponent() {
 
           <span
             ref={nodeRef}
-            className="absolute top-10 right-24 bg-(--bg-tertiary)/05 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md"
+            className="absolute top-10 right-1 sm:right-8 md:right-24 bg-(--bg-tertiary)/05 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md"
           >
             Vue.js
           </span>
 
           <span
             ref={nextRef}
-            className="absolute bottom-10 left-24 bg-(--bg-tertiary)/05 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md"
+            className="absolute bottom-10  left-1 sm:left-8 md:left-24 bg-(--bg-tertiary)/05 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md"
           >
             Next.js
           </span>
 
           <span
             ref={reactRef}
-            className="absolute bottom-0 right-30 bg-(--bg-tertiary)/05 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md"
+            className="absolute -bottom-10 sm:bottom-0 right-30 bg-(--bg-tertiary)/05 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md"
           >
             React.js
           </span>

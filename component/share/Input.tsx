@@ -17,7 +17,7 @@ export default function InputField({
     "w-full px-4 py-3 rounded-lg bg-(--bg-primary) border border-(--border-secondary) focus:outline-none focus:border-(--border-secondary) text-sm auto-fill";
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       <label htmlFor={name} className="block text-sm text-(--text-primary)">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}

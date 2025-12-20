@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import gsap from "gsap";
+import Image from "next/image";
 
 export default function Navbar() {
   const [open, setOpen] = useState<boolean>(false);
@@ -118,7 +119,9 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-(--bg-primary)/40 border-b border-(--border-secondary)">
       <div className="container px-5 py-4 flex justify-between items-center">
-        <div className="text-xl font-bold">Balal.</div>
+        <div className="text-xl font-bold">
+          <Image src="/logo.svg" alt="logo" width={48} height={48} />
+        </div>
 
         <div className="hidden md:flex items-center gap-8 text-sm">
           {menuItems.map((item) => (
