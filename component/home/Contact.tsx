@@ -11,6 +11,7 @@ import {
   Instagram,
   ArrowRight,
   ChevronDown,
+  Loader,
 } from "lucide-react";
 import InputField from "../share/Input";
 import { countryList } from "@/content/country";
@@ -18,11 +19,14 @@ import moment from "moment-timezone";
 import { tzToCountry } from "@/utils/tzToCountry";
 import { useErrors } from "@/hooks/useErrors";
 import { ContactSchema } from "@/schema/ContactSchema";
+import ReCAPTCHA from "react-google-recaptcha";
+import { toast } from "sonner";
 
 function ContactComponent() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const leftRef = useRef<HTMLDivElement | null>(null);
   const timezone = moment.tz.guess();
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
 
   const defaultCountry =
     tzToCountry[timezone as keyof typeof tzToCountry] || "US";
@@ -33,6 +37,7 @@ function ContactComponent() {
 
   const [openCountryList, setOpenCountryList] = useState(false);
   const countryRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const errors = useErrors();
 
@@ -43,18 +48,73 @@ function ContactComponent() {
     message: "",
     country: "",
     dialCode: "",
+    token: "",
   });
   const filterCountry = countryList.map((country) => ({
     label: country.name,
     value: country.code,
   }));
+
+  function handleCaptcha(token: string | null) {
+    setForm({ ...form, token: token || "" });
+    errors.clear("token");
+  }
+
+  const resetFormData = () => {
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+      country: "",
+      dialCode: "",
+      token: "",
+    });
+    errors.reset();
+    recaptchaRef.current?.reset();
+  };
+
   const submitContact = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const validation = ContactSchema(selectedCountry).safeParse(form);
     if (!validation.success) {
       errors.record(validation.error.issues);
+      setForm({ ...form, token: "" });
+      recaptchaRef.current?.reset();
+
       return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          country: countryList.find((country) => country.code === form.country)?.name ??
+            "",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        toast.success(data.message || "Message sent successfully");
+        resetFormData();
+        return;
+      }
+
+      if (data.errors) {
+        recaptchaRef.current?.reset();
+      }
+    } catch {
+      recaptchaRef.current?.reset();
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -123,7 +183,7 @@ function ContactComponent() {
   }, []);
 
   return (
-    <div className=" w-full min-h-screen py-20 px-4 relative bg-[url('/contact_us.png')] bg-cover bg-center bg-no-repeat bg-(--bg-secondary) text-(--text-primary)">
+    <div className=" w-full min-h-screen py-20 px-4 relative bg-[url('/heroSection.svg')] bg-cover bg-center bg-no-repeat bg-(--bg-secondary) text-(--text-primary)">
       <div className="container space-y-10">
         <div ref={containerRef} className=" flex items-center flex-col">
           <div className="flex items-center justify-center gap-2 px-5 py-2 bg-(--bg-tertiary)/10 border border-(--border-primary) w-fit rounded-[70px] border-dashed">
@@ -155,7 +215,7 @@ function ContactComponent() {
         <div className="grid grid-cols-1 xl:grid-cols-3 xl:gap-4">
           <div
             ref={leftRef}
-            className="bg-[#0b0f16] rounded-2xl p-6 space-y-6 shadow-xl mb-4"
+            className="bg-(--bg-primary)/80 rounded-2xl p-6 space-y-6 shadow-xl mb-4 h-full"
           >
             <div className="flex gap-4 items-center">
               <Image
@@ -166,18 +226,24 @@ function ContactComponent() {
                 className="rounded-xl object-cover"
               />
               <div>
-                <div className="flex items-center justify-center gap-2 px-5 py-2 bg-(--bg-tertiary)/10 border border-(--border-primary) w-fit rounded-[70px] border-dashed text-sm">
+                <div className="flex items-center justify-center gap-2 px-2 py-1 sm:px-5 sm:py-2 bg-(--bg-tertiary)/10 border border-(--border-primary) w-fit rounded-[70px] border-dashed text-sm">
                   <span className="w-2.5 h-2.5 rounded-full bg-(--bg-tertiary) animate-pulse" />
                   Available To Work
                 </div>
                 <div className="text-lg md:text-xl font-semibold pt-2 pb-0.5">
                   Ali Hasan
                 </div>
-                <p className="text-[13px]  sm:text-[16px] text-(--text-muted)">Frontend Developer</p>
+                <p className="text-[13px]  sm:text-[16px] text-(--text-muted)">
+                  Frontend Developer
+                </p>
               </div>
             </div>
 
-            <SocialCard icon={<Mail />} title="Email" value="developeralihasan777@gmail.com" />
+            <SocialCard
+              icon={<Mail />}
+              title="Email"
+              value="developeralihasan777@gmail.com"
+            />
             <SocialCard
               icon={<Linkedin />}
               title="LinkedIn"
@@ -194,7 +260,7 @@ function ContactComponent() {
               value="1K+ Followers"
             />
           </div>
-          <div className="col-span-2 bg-[#0b0f16] rounded-2xl p-8 shadow-xl">
+          <div className="col-span-2 bg-(--bg-primary)/80 rounded-2xl p-8 shadow-xl">
             <form
               className="space-y-6"
               onSubmit={submitContact}
@@ -202,7 +268,7 @@ function ContactComponent() {
                 errors.clear((event.target as HTMLInputElement).name)
               }
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputField
                   label="Name"
                   placeholder="Your Name"
@@ -295,28 +361,41 @@ function ContactComponent() {
                     </p>
                   )}
                 </div>
-
-                <div className="col-span-2">
-                  <InputField
-                    label="Write your plan’s brief here"
-                    placeholder="Write your plan’s brief here"
-                    name="message"
-                    type="textarea"
-                    value={form.message}
-                    onChange={(e) =>
-                      setForm({ ...form, message: e.target.value })
-                    }
-                    error={errors.get("message")}
-                    required
-                  />
-                </div>
               </div>
-
+              <InputField
+                label="Write your plan’s brief here"
+                placeholder="Write your plan’s brief here"
+                name="message"
+                type="textarea"
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                error={errors.get("message")}
+                required
+              />
+              <div className="mb-6">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey="6LcEuDEsAAAAAJYlLfogMBbDVyu-eQdLsY1mdq57"
+                  onChange={handleCaptcha}
+                  theme="dark"
+                />
+                {errors.get("token") && (
+                  <p className="text-red-500 text-sm">{errors.get("token")}</p>
+                )}
+              </div>
               <button
                 type="submit"
-                className="px-8 py-3 rounded-full bg-(--bg-tertiary)/70 hover:bg-(--bg-tertiary)  transition duration-300 cursor-pointer text-(--text-primary) font-semibold"
+                className="px-8 py-3 text-[13px] sm:text-[16px] rounded-full bg-(--bg-tertiary)/70 hover:bg-(--bg-tertiary)  transition duration-300 cursor-pointer text-(--text-primary) font-semibold"
+                disabled={loading}
               >
-                Submit & See The Magic
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <Loader className="w-5 h-5 animate-spin" />
+                    Loading...
+                  </span>
+                ) : (
+                  "Send Message"
+                )}
               </button>
             </form>
           </div>
@@ -336,17 +415,19 @@ function SocialCard({
   value: string;
 }) {
   return (
-    <div className="group flex items-center justify-between p-4 rounded-xl bg-[#0f1520] hover:bg-[#141b2d] transition cursor-pointer">
+    <div className="group flex items-center justify-between p-4 rounded-xl bg-(--bg-primary)/90 hover:bg-(--bg-primary) transition cursor-pointer">
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-lg bg-black/40 flex items-center justify-center text-gray-300">
+        <div className="w-10 h-10 rounded-lg bg-(--bg-primary)/10 flex items-center justify-center text-(--text-muted)">
           {icon}
         </div>
         <div>
-          <p className="text-sm text-gray-400">{title}</p>
-          <p className="text-white font-medium">{value}</p>
+          <p className="text-sm text-(--text-muted)">{title}</p>
+          <p className="text-white font-medium min-w-0 max-w-full grid grid-cols-1 wrap-break-word">
+            {value}
+          </p>
         </div>
       </div>
-      <ArrowRight className="text-gray-400 group-hover:translate-x-1 transition" />
+      <ArrowRight className="text-(--text-muted) group-hover:translate-x-1 transition" />
     </div>
   );
 }

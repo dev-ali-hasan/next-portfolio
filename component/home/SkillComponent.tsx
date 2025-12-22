@@ -23,6 +23,7 @@ export default function SkillComponent() {
   const row2Ref = useRef<HTMLDivElement | null>(null);
   const row3Ref = useRef<HTMLDivElement | null>(null);
   const skillSvgRef = useRef<SVGSVGElement | null>(null);
+  const descriptionRef = useRef<HTMLParagraphElement | null>(null);
 
   const [mounted, setMounted] = useState(false);
   const [row1, setRow1] = useState<Skill[]>([]);
@@ -105,7 +106,42 @@ export default function SkillComponent() {
     animateRow(row3Ref.current, "left", 65);
   }, [mounted]);
 
-  
+  useEffect(() => {
+    if (!descriptionRef.current) return;
+
+    const animation = gsap.context(() => {
+      const animateText = (element: HTMLElement) => {
+        const text = element.innerText;
+        element.innerHTML = "";
+
+        text.split("").forEach((char) => {
+          const span = document.createElement("span");
+          span.className = "skill_description";
+          span.textContent = char === " " ? "\u00A0" : char;
+          element.appendChild(span);
+        });
+
+        gsap.from(element.querySelectorAll(".skill_description"), {
+          yPercent: 120,
+          opacity: 0,
+          stagger: 0.04,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 85%",
+            toggleActions: "play reset play reset",
+          },
+        });
+      };
+
+      if (descriptionRef.current) {
+        animateText(descriptionRef.current);
+      }
+    });
+
+    return () => animation.revert();
+  }, []);
 
   const renderItems = (items: Skill[]) =>
     [...items, ...items].map((item, index) => (
@@ -126,7 +162,6 @@ export default function SkillComponent() {
 
   return (
     <section className="pt-20 lg:pt-36 pb-12 lg:pb-20 bg-(--bg-primary) space-y-10 overflow-hidden">
-      
       <div className="text-center container pb-5 md:pb-10">
         <div className="relative inline-block">
           <div className="absolute -top-10 -left-16">
@@ -159,18 +194,20 @@ export default function SkillComponent() {
             </svg>
           </div>
 
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
+          <div className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
             My Skills
-          </h2>
+          </div>
         </div>
 
-        <p className="text-(--text-muted) max-w-4xl mx-auto mt-4">
+        <p
+          ref={descriptionRef}
+          className="text-(--text-muted) text-[13px] sm:text-lg"
+        >
           Modern frontend development using React, Next.js, Vue, and Nuxt with
           performance-focused, scalable UI architecture.
         </p>
       </div>
-     
-     
+
       <div className="relative w-full">
         <div className="pointer-events-none absolute left-0 top-0 h-full w-[150px] sm:w-[300px] lg:w-[500px] bg-linear-to-r from-(--bg-primary) to-transparent z-20" />
 

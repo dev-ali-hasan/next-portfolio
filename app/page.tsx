@@ -6,6 +6,10 @@ import ProjectComponent from "@/component/home/Project";
 import ReviewComponent from "@/component/home/Review";
 import ContactComponent from "@/component/home/Contact";
 
+import { SplitText } from "gsap/all";
+import gsap from "gsap";
+
+gsap.registerPlugin(SplitText);
 export default function HomePage() {
   return (
       <>

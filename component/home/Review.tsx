@@ -139,7 +139,7 @@ export default function ReviewComponent() {
       className="pt-20 lg:pt-36 pb-20 bg-(--bg-secondary) space-y-10 overflow-hidden"
       id="review"
     >
-      <div className="text-center container mx-auto px-4 pb-14">
+      <div className="text-center container px-4 pb-14">
         <div className="relative inline-block ">
           <div className="absolute -top-10 -left-16">
             <svg
@@ -172,7 +172,7 @@ export default function ReviewComponent() {
           </div>
 
           <div className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
-            Client Experiences & Feedback
+            Client Experiences 
           </div>
         </div>
 

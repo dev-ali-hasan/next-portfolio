@@ -155,3 +155,31 @@ textarea:-webkit-autofill:focus {
   border: 1px solid var(--border-secondary) !important;
   transition: background-color 9999s ease-in-out 0s;
 }
+.hero-title {
+  visibility: hidden;
+}
+
+.char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.about_title {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.about_word {
+  display: inline-block;
+  margin-right: 0.25em;
+  will-change: transform, opacity;
+}
+.tab-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.skill_description {
+  display: inline-block;
+  will-change: transform, opacity;
+}

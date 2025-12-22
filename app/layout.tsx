@@ -4,6 +4,7 @@ import "@/styles/slider.css";
 
 import { Inter, Open_Sans } from "next/font/google";
 import Navbar from "@/component/layout/Navber";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body cz-shortcut-listen="true">
         <Navbar />
         {children}
+        <Toaster position="bottom-right"/>
       </body>
     </html>
   );
