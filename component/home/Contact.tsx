@@ -159,7 +159,6 @@ function ContactComponent() {
         countryList.find((country) => country.code === form.country) ??
         selectedCountry;
 
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setForm((prev) => ({
         ...prev,
         dialCode: selectCountry.dial,

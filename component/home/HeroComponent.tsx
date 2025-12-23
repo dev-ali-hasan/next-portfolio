@@ -126,7 +126,7 @@ export default function HeroComponent() {
         backgroundPosition: "center",
       }}
     >
-      <div className="container grid lg:grid-cols-2 gap-14 items-center pt-40 pb-30 px-5">
+      <div className="container grid lg:grid-cols-2 gap-14 items-center pt-56 pb-44 px-5">
 
         <div ref={leftRef}>
           <div className="text-(--text-tertiary) text-sm mb-4 bg-(--bg-tertiary)/10 w-fit px-3 py-2 rounded-2xl border border-(--border-tertiary)">

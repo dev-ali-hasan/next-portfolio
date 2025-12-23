@@ -163,7 +163,7 @@ export default function Navbar() {
       ref={navRef}
       className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-(--bg-primary)/40 border-b border-(--border-secondary)"
     >
-      <div className="container px-5 py-4 flex justify-between items-center">
+      <div className="container py-4 flex justify-between items-center">
         <Image src="/logo.svg" alt="logo" width={48} height={48} />
 
         <div className="hidden md:flex items-center gap-8 text-sm">

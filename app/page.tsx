@@ -8,18 +8,20 @@ import ContactComponent from "@/component/home/Contact";
 
 import { SplitText } from "gsap/all";
 import gsap from "gsap";
+import Experience from "@/component/home/Expreience";
 
 gsap.registerPlugin(SplitText);
 export default function HomePage() {
   return (
-      <>
-        <HeroComponent />
-        <AboutUsComponent />
-        <ClientHappy />
-        <SkillComponent />
-        <ProjectComponent />
-        <ReviewComponent />
-        <ContactComponent />
-      </>
+    <>
+      <HeroComponent />
+      <AboutUsComponent />
+      <ClientHappy />
+      <SkillComponent />
+      <ProjectComponent />
+      <ReviewComponent />
+      <Experience />
+      <ContactComponent />
+    </>
   );
 }
