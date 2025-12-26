@@ -39,7 +39,7 @@ const Experience = () => {
   }, []);
 
   return (
-    <section ref={heroRef} className="py-20 px-4 relative bg-(--bg-primary)">
+    <section className="py-20 px-4 relative bg-(--bg-primary)">
       <div className="container">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-4 mb-2">

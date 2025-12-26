@@ -151,9 +151,11 @@ export default function Navbar() {
   }, []);
 
   const menuItems = [
-    { name: "Home", href: "#home", id: "home" },
+    // { name: "Home", href: "#home", id: "home" },
     { name: "About", href: "#about", id: "about" },
     { name: "Services", href: "#services", id: "services" },
+    { name: "Why Me", href: "#why-me", id: "why-me" },
+    { name: "Projects", href: "#projects", id: "projects" },
     { name: "Review", href: "#review", id: "review" },
     { name: "Contact", href: "#contact", id: "contact" },
   ];
@@ -164,9 +166,11 @@ export default function Navbar() {
       className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-(--bg-primary)/40 border-b border-(--border-secondary)"
     >
       <div className="container py-4 flex justify-between items-center">
-        <Image src="/logo.svg" alt="logo" width={48} height={48} />
+        <a href="#" className="cursor-pointer">
+          <Image src="/logo.svg" alt="logo" width={48} height={48} />
+        </a>
 
-        <div className="hidden md:flex items-center gap-8 text-sm">
+        <div className="hidden md:flex items-center gap-8 text-[12px] sm:text-[16px] md:text-xl">
           {menuItems.map((item) => (
             <a
               key={item.id}
@@ -184,7 +188,7 @@ export default function Navbar() {
 
         <button
           ref={resumeBtnRef}
-          className="hidden md:block border border-(--border-primary) text-(--text-tertiary) px-4 py-1 rounded-md"
+          className="hidden md:block border border-(--border-primary) text-(--text-tertiary) hover:bg-(--bg-tertiary) hover:text-(--text-primary) transition-all duration-300 px-4 py-0.5 rounded-md text-[12px] sm:text-[16px] md:text-xl cursor-pointer"
         >
           Resume
         </button>

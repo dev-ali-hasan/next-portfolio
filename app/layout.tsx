@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import "@/styles/slider.css";
+import "@/styles/keyframe.css";
 
 import { Inter, Open_Sans } from "next/font/google";
 import Navbar from "@/component/layout/Navber";
 import { Toaster } from "sonner";
+import FooterComponent from "@/component/layout/Footer";
+import CustomCursor from "@/component/layout/CustomCursor";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,8 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${openSans.variable}`}>
       <body cz-shortcut-listen="true">
+        {/* <CustomCursor/> */}
         <Navbar />
         {children}
+        <FooterComponent/>
         <Toaster position="bottom-right"/>
       </body>
     </html>

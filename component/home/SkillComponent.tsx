@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { Skill } from "@/type/skill/skillContent";
 import { skillContent } from "@/content/skillContent";
+import useHoverAnimation from "@/hooks/useHoverAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,12 +24,15 @@ export default function SkillComponent() {
   const row2Ref = useRef<HTMLDivElement | null>(null);
   const row3Ref = useRef<HTMLDivElement | null>(null);
   const skillSvgRef = useRef<SVGSVGElement | null>(null);
+  const titleRef = useRef<HTMLDivElement | null>(null);
   const descriptionRef = useRef<HTMLParagraphElement | null>(null);
 
   const [mounted, setMounted] = useState(false);
   const [row1, setRow1] = useState<Skill[]>([]);
   const [row2, setRow2] = useState<Skill[]>([]);
   const [row3, setRow3] = useState<Skill[]>([]);
+
+  useHoverAnimation({ titleRef, descriptionRef });
 
   useEffect(() => {
     if (!skillSvgRef.current) return;
@@ -106,43 +110,6 @@ export default function SkillComponent() {
     animateRow(row3Ref.current, "left", 65);
   }, [mounted]);
 
-  useEffect(() => {
-    if (!descriptionRef.current) return;
-
-    const animation = gsap.context(() => {
-      const animateText = (element: HTMLElement) => {
-        const text = element.innerText;
-        element.innerHTML = "";
-
-        text.split("").forEach((char) => {
-          const span = document.createElement("span");
-          span.className = "skill_description";
-          span.textContent = char === " " ? "\u00A0" : char;
-          element.appendChild(span);
-        });
-
-        gsap.from(element.querySelectorAll(".skill_description"), {
-          yPercent: 120,
-          opacity: 0,
-          stagger: 0.04,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: element,
-            start: "top 85%",
-            toggleActions: "play reset play reset",
-          },
-        });
-      };
-
-      if (descriptionRef.current) {
-        animateText(descriptionRef.current);
-      }
-    });
-
-    return () => animation.revert();
-  }, []);
-
   const renderItems = (items: Skill[]) =>
     [...items, ...items].map((item, index) => (
       <div
@@ -161,7 +128,7 @@ export default function SkillComponent() {
     ));
 
   return (
-    <section className="pt-20 lg:pt-36 pb-12 lg:pb-20 bg-(--bg-primary) space-y-10 overflow-hidden">
+    <section className="pt-20 lg:pt-36 pb-12 lg:pb-20 bg-(--bg-secondary) space-y-10 overflow-hidden">
       <div className="text-center container pb-5 md:pb-10">
         <div className="relative inline-block">
           <div className="absolute -top-10 -left-16">
@@ -194,16 +161,19 @@ export default function SkillComponent() {
             </svg>
           </div>
 
-          <div className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
+          <span
+            ref={titleRef}
+            className="text-xl sm:text-3xl md:text-5xl font-bold mb-3"
+          >
             My Skills
-          </div>
+          </span>
         </div>
 
         <p
           ref={descriptionRef}
-          className="text-(--text-muted) text-[13px] sm:text-lg"
+          className="text-center mt-4 text-[12px] sm:text-[16px] md:text-xl text-(--text-muted) max-w-4xl mx-auto"
         >
-          Modern frontend development using React, Next.js, Vue, and Nuxt with
+          Modern frontend development using <span className="text-(--text-tertiary)">React, Next.js, Vue, and Nuxt</span> with
           performance-focused, scalable UI architecture.
         </p>
       </div>

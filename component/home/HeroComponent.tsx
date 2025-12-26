@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { MessageSquareCode } from "lucide-react";
+import hoverEffect from "hover-effect";
+import HoverItem from "../share/HoverImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,7 +27,7 @@ export default function HeroComponent() {
       gsap.from(leftRef.current, {
         y: 40,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.2,
         ease: "power3.out",
         scrollTrigger: {
           trigger: leftRef.current,
@@ -67,8 +69,8 @@ export default function HeroComponent() {
         {
           yPercent: 0,
           autoAlpha: 1,
-          stagger: 0.035,
-          duration: 0.8,
+          stagger: 0.022,
+          duration: 0.2,
           ease: "power3.out",
         }
       )
@@ -88,7 +90,7 @@ export default function HeroComponent() {
             y: 20,
             opacity: 0,
             stagger: 0.15,
-            duration: 0.5,
+            duration: 0.2,
             ease: "power3.out",
           },
           "-=0.3"
@@ -126,11 +128,11 @@ export default function HeroComponent() {
         backgroundPosition: "center",
       }}
     >
-      <div className="container grid lg:grid-cols-2 gap-14 items-center pt-56 pb-44 px-5">
-
+      <div className="container grid lg:grid-cols-2 gap-14 items-center pt-24 pb-20 lg:pt-56 lg:pb-44">
         <div ref={leftRef}>
-          <div className="text-(--text-tertiary) text-sm mb-4 bg-(--bg-tertiary)/10 w-fit px-3 py-2 rounded-2xl border border-(--border-tertiary)">
-            &gt;_ Available for freelance work
+          <div className="text-(--text-tertiary) text-[12px] md:text-[16px] mb-4 bg-(--bg-tertiary)/10 w-fit px-6 py-1.5 rounded-4xl border border-(--border-tertiary) flex items-center gap-2">
+            <MessageSquareCode className="animate-pulse text-(--icon-primary) w-5 h-5 " />{" "}
+            Available for freelance work
           </div>
 
           <div
@@ -144,7 +146,7 @@ export default function HeroComponent() {
 
           <p
             ref={subtitleRef}
-            className="text-sm sm:text-base mt-6 text-(--text-muted)"
+            className="text-[12px] sm:text-[16px] md:text-xl mt-6 text-(--text-muted)"
           >
             I specialize in building modern, responsive web applications using{" "}
             <span className="text-(--text-tertiary)">React</span>,{" "}
@@ -153,10 +155,10 @@ export default function HeroComponent() {
           </p>
 
           <div ref={buttonsRef} className="flex gap-4 flex-wrap mt-8">
-            <button className="px-5 py-2 rounded-md bg-(--bg-tertiary) text-(--text-primary)">
+            <button className="px-5 py-2 rounded-md bg-(--bg-tertiary) text-(--text-primary) text-[12px] sm:text-[16px] cursor-pointer">
               Contact Me
             </button>
-            <button className="px-5 py-2 rounded-md border border-(--border-primary) text-(--text-tertiary)">
+            <button className="px-5 py-2 rounded-md border border-(--border-primary) text-(--text-tertiary) text-[12px] sm:text-[16px] hover:bg-(--bg-tertiary) hover:text-(--text-primary) transition-colors duration-300 ease-in-out cursor-pointer">
               View Project
             </button>
           </div>
@@ -169,32 +171,31 @@ export default function HeroComponent() {
           />
 
           <div className="relative w-48 h-48 sm:w-72 sm:h-72 rounded-full border border-(--border-primary) p-2">
-            <Image
-              src="/profile.jpg"
-              alt="profile"
-              width={300}
-              height={300}
-              className="rounded-full w-full h-full object-cover"
+            <HoverItem
+              image="/profile.jpg"
+              displacement="/profile.jpg"
+              css="rounded-full"
+              intensity={0.4}
             />
           </div>
 
           <span
             ref={vueRef}
-            className="absolute top-10 right-1 sm:right-8 md:right-24 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md"
+            className="absolute top-10 right-1 sm:right-8 md:right-24 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md text-[12px] sm:text-[16px]"
           >
             Vue.js
           </span>
 
           <span
             ref={nextRef}
-            className="absolute bottom-10 left-1 sm:left-8 md:left-24 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md"
+            className="absolute bottom-10 left-1 sm:left-8 md:left-24 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md text-[12px] sm:text-[16px]"
           >
             Next.js
           </span>
 
           <span
             ref={reactRef}
-            className="absolute -bottom-10 sm:bottom-0 right-30 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md"
+            className="absolute -bottom-10 sm:bottom-0 right-30 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md text-[12px] sm:text-[16px]"
           >
             React.js
           </span>

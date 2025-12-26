@@ -12,6 +12,8 @@
 
   --border-primary: #22c55e;
   --border-secondary: #d1d5db42;
+
+  --icon-primary: #9ED83F;
 }
 
 @theme inline {
@@ -28,6 +30,8 @@
 
   --border-primary: var(--border-primary);
   --border-secondary: var(--border-secondary);
+
+  --icon-primary: var(--icon-primary);
 }
 
 body {
@@ -36,7 +40,7 @@ body {
   font-family: var(--font-primary);
 }
 .container {
-  max-width: (1400px, 90%);
+  width: (1400px, 90%);
   margin: 0 auto;
 }
 
