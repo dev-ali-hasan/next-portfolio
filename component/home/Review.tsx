@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { reviews } from "@/content/clientReview";
 import { Star } from "lucide-react";
 import { Review } from "@/type/reviews/reviewsContent";
+import useHoverAnimation from "@/hooks/useHoverAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,11 @@ export default function ReviewComponent() {
   const [col1, setCol1] = useState<Review[]>([]);
   const [col2, setCol2] = useState<Review[]>([]);
   const [col3, setCol3] = useState<Review[]>([]);
+
+  const titleRef = useRef<HTMLDivElement | null>(null);
+  const descriptionRef = useRef<HTMLParagraphElement | null>(null);
+
+  useHoverAnimation({ titleRef, descriptionRef });
 
   useEffect(() => {
     if (!skillSvgRef.current) return;
@@ -114,19 +120,19 @@ export default function ReviewComponent() {
               />
             ))}
           </div>
-          <p className="text-(--text-muted) line-clamp-4 leading-relaxed text-sm">
+          <p className="text-(--text-muted) line-clamp-4 leading-relaxed text-[12px] sm:text-[16px]">
             &quot;{review.review}&quot;
           </p>
         </div>
         <div className="flex items-center gap-4 pt-4">
-          <div className="w-10 h-10 rounded-full bg-(--bg-tertiary)/10 flex items-center justify-center text-(--text-tertiary) font-bold text-lg shrink-0">
+          <div className="w-12 h-12 rounded-full bg-(--bg-tertiary)/10 flex items-center justify-center text-(--text-tertiary) font-bold text-2xl shrink-0">
             {review.name.charAt(0)}
           </div>
           <div className="overflow-hidden">
-            <div className="font-semibold text-(--text-primary) truncate">
+            <div className="font-semibold text-(--text-primary) truncate text-[12px] sm:text-[16px] md:text-xl">
               {review.name}
             </div>
-            <p className="text-xs text-(--text-tertiary) truncate">
+            <p className="text-[12px] sm:text-[16px] text-(--text-tertiary) truncate">
               {review.company}
             </p>
           </div>
@@ -171,12 +177,18 @@ export default function ReviewComponent() {
             </svg>
           </div>
 
-          <div className="text-xl sm:text-2xl md:text-4xl font-bold mb-3 bg-linear-to-l from-(--bg-tertiary) to-(--text-primary) bg-clip-text text-transparent">
-            Client Experiences 
-          </div>
+          <span
+            ref={titleRef}
+            className="text-xl sm:text-3xl md:text-5xl font-bold block text-center mb-3"
+          >
+            Client Experiences
+          </span>
         </div>
 
-        <p className="text-(--text-muted) max-w-4xl mx-auto mt-4">
+        <p
+          ref={descriptionRef}
+          className="text-center text-[12px] sm:text-[16px] md:text-xl text-(--text-muted) max-w-5xl mx-auto"
+        >
           Honest feedback from clients highlighting their experience with our
           design quality, development approach, and overall collaboration across
           real-world projects.

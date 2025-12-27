@@ -3,12 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Calendar, Briefcase, MapPin } from "lucide-react";
 import { experiences } from "@/content/experience";
+import useHoverAnimation from "@/hooks/useHoverAnimation";
+import gsap from "gsap";
 
 const Experience = () => {
-  const heroRef = useRef<HTMLElement | null>(null);
   const experienceRef = useRef<HTMLDivElement | null>(null);
   const [labelWidths, setLabelWidths] = useState<number[]>([]);
   const [lineHeight, setLineHeight] = useState<number | "auto">("auto");
+
+  const titleRef = useRef<HTMLDivElement | null>(null);
+  const descriptionRef = useRef<HTMLParagraphElement | null>(null);
+
+  const itemsRef = useRef<HTMLDivElement[]>([]);
+
+  useHoverAnimation({ titleRef, descriptionRef });
 
   const setLabelRef = (index: number) => (element: HTMLDivElement | null) => {
     if (!element) return;
@@ -38,19 +46,54 @@ const Experience = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const items = itemsRef.current.filter(Boolean);
+    if (!items.length) return;
+
+    items.forEach((item) => {
+      gsap.fromTo(
+        item,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
+  }, []);
+
   return (
     <section className="py-20 px-4 relative bg-(--bg-primary)">
       <div className="container">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-4 mb-2">
             <div className="h-[2px] w-16 bg-(--border-primary)"></div>
-            <div className="text-3xl md:text-4xl font-bold animate-on-scroll text-(--text-primary)">
+            <span
+              ref={titleRef}
+              className="text-xl sm:text-3xl md:text-5xl font-bold block text-center"
+            >
               Professional Experience
-            </div>
+            </span>
             <div className="h-[2px] w-16 bg-(--border-primary)"></div>
           </div>
-
-          <p className="text-(--text-muted) text-sm mt-2">
+          <p
+            ref={descriptionRef}
+            className="text-center text-[12px] sm:text-[16px] md:text-xl text-(--text-muted) max-w-5xl mx-auto mt-2"
+          >
             Creating reliable, user-focused web solutions using modern frontend
             technologies.
           </p>
@@ -64,7 +107,13 @@ const Experience = () => {
 
           <div ref={experienceRef} className="space-y-0">
             {experiences.map((exp, idx) => (
-              <div key={idx} className="relative">
+              <div
+                key={idx}
+                ref={(el: HTMLDivElement | null) => {
+                  if (el) itemsRef.current[idx] = el;
+                }}
+                className="relative"
+              >
                 <div
                   className={`flex items-start ${
                     idx % 2 === 0 ? "justify-start" : "justify-end"

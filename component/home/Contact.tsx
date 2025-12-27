@@ -10,36 +10,67 @@ import {
   //   Behance,
   Instagram,
   ArrowRight,
-  ChevronDown,
   Loader,
+  Facebook,
+  Github,
+  LucideIcon,
 } from "lucide-react";
 import InputField from "../share/Input";
 import { countryList } from "@/content/country";
-import moment from "moment-timezone";
-import { tzToCountry } from "@/utils/tzToCountry";
 import { useErrors } from "@/hooks/useErrors";
 import { ContactSchema } from "@/schema/ContactSchema";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "sonner";
+import useHoverAnimation from "@/hooks/useHoverAnimation";
+import HoverItem from "../share/HoverImage";
+interface ContactItem {
+  icon: LucideIcon;
+  title: string;
+  value: string;
+  link?: string;
+}
 
 function ContactComponent() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const leftRef = useRef<HTMLDivElement | null>(null);
-  const timezone = moment.tz.guess();
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
 
-  const defaultCountry =
-    tzToCountry[timezone as keyof typeof tzToCountry] || "US";
+  const titleRef = useRef<HTMLDivElement | null>(null);
+  const descriptionRef = useRef<HTMLParagraphElement | null>(null);
 
-  const [selectedCountry, setSelectedCountry] = useState(
-    countryList.find((c) => c.code === defaultCountry) || countryList[0]
-  );
+  const itemsRef = useRef<HTMLDivElement[]>([]);
 
-  const [openCountryList, setOpenCountryList] = useState(false);
-  const countryRef = useRef<HTMLDivElement>(null);
+  useHoverAnimation({ titleRef, descriptionRef });
+
   const [loading, setLoading] = useState(false);
 
   const errors = useErrors();
+
+  const contacts: ContactItem[] = [
+    {
+      icon: Mail,
+      title: "Email",
+      value: "developeralihasan777@gmail.com",
+      link: "mailto:developeralihasan777@gmail.com",
+    },
+    {
+      icon: Linkedin,
+      title: "LinkedIn",
+      value: "1K+ Followers",
+      link: "https://www.linkedin.com/in/ali-hasan-409845256",
+    },
+    {
+      icon: Facebook,
+      title: "Facebook",
+      value: "1.5K+ Followers",
+      link: "https://facebook.com/alihasan404439",
+    },
+    {
+      icon: Github,
+      title: "Github",
+      value: "1.5K+ Followers",
+      link: "https://github.com/dev-ali-hasan",
+    },
+  ];
 
   const [form, setForm] = useState({
     name: "",
@@ -47,7 +78,6 @@ function ContactComponent() {
     phone: "",
     message: "",
     country: "",
-    dialCode: "",
     token: "",
   });
   const filterCountry = countryList.map((country) => ({
@@ -67,7 +97,6 @@ function ContactComponent() {
       phone: "",
       message: "",
       country: "",
-      dialCode: "",
       token: "",
     });
     errors.reset();
@@ -77,7 +106,7 @@ function ContactComponent() {
   const submitContact = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validation = ContactSchema(selectedCountry).safeParse(form);
+    const validation = ContactSchema().safeParse(form);
     if (!validation.success) {
       errors.record(validation.error.issues);
       setForm({ ...form, token: "" });
@@ -94,8 +123,9 @@ function ContactComponent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          country: countryList.find((country) => country.code === form.country)?.name ??
-            "",
+          country:
+            countryList.find((country) => country.code === form.country)
+              ?.name ?? "",
         }),
       });
 
@@ -119,22 +149,33 @@ function ContactComponent() {
   };
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const items = itemsRef.current.filter(Boolean);
+    if (!items.length) return;
 
-    gsap.fromTo(
-      containerRef.current,
-      { opacity: 0, y: 100 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%",
+    items.forEach((item) => {
+      gsap.fromTo(
+        item,
+        {
+          y: 80,
+          opacity: 0,
         },
-      }
-    );
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: item,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
   }, []);
 
   useEffect(() => {
@@ -153,39 +194,11 @@ function ContactComponent() {
     );
   }, []);
 
-  useEffect(() => {
-    if (form.country) {
-      const selectCountry =
-        countryList.find((country) => country.code === form.country) ??
-        selectedCountry;
-
-      setForm((prev) => ({
-        ...prev,
-        dialCode: selectCountry.dial,
-      }));
-      setSelectedCountry(selectCountry);
-    }
-  }, [form.country, selectedCountry]);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        countryRef.current &&
-        !countryRef.current.contains(event.target as Node)
-      ) {
-        setOpenCountryList(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   return (
     <div className=" w-full min-h-screen py-20 px-4 relative bg-[url('/heroSection.svg')] bg-cover bg-center bg-no-repeat bg-(--bg-secondary) text-(--text-primary)">
       <div className="container space-y-10">
-        <div ref={containerRef} className=" flex items-center flex-col">
-          <div className="flex items-center justify-center gap-2 px-5 py-2 bg-(--bg-tertiary)/10 border border-(--border-primary) w-fit rounded-[70px] border-dashed">
+        <div className=" flex items-center flex-col">
+          <div className="flex items-center justify-center gap-2 mb-3 w-fit ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={21}
@@ -200,12 +213,18 @@ function ContactComponent() {
               />
             </svg>
 
-            <span className="text-xl md:text-3xl font-semibold text-center">
+            <span
+              ref={titleRef}
+              className="text-xl sm:text-3xl md:text-5xl font-bold block text-center"
+            >
               Contact With Me
             </span>
           </div>
 
-          <p className="text-(--text-muted) mt-4 text-center">
+          <p
+            ref={descriptionRef}
+            className="text-left text-[12px] sm:text-[16px] md:text-xl text-(--text-muted) max-w-5xl mx-auto"
+          >
             Got a project or collaboration in mind? to you soon!{" "}
             <span className="text-(--text-tertiary) font-bold">Reach out,</span>{" "}
             and I’ll get back
@@ -217,13 +236,14 @@ function ContactComponent() {
             className="bg-(--bg-primary)/80 rounded-2xl p-6 space-y-6 shadow-xl mb-4 h-full"
           >
             <div className="flex gap-4 items-center">
-              <Image
-                src="/profile.jpg"
-                alt="Profile"
-                width={100}
-                height={100}
-                className="rounded-xl object-cover"
-              />
+              <div className="w-[150px] h-[150px]">
+                <HoverItem
+                  image="/contact.jpeg"
+                  displacement="/contact.jpeg"
+                  css="rounded-xl"
+                  intensity={0.4}
+                />
+              </div>
               <div>
                 <div className="flex items-center justify-center gap-2 px-2 py-1 sm:px-5 sm:py-2 bg-(--bg-tertiary)/10 border border-(--border-primary) w-fit rounded-[70px] border-dashed text-sm">
                   <span className="w-2.5 h-2.5 rounded-full bg-(--bg-tertiary) animate-pulse" />
@@ -232,32 +252,22 @@ function ContactComponent() {
                 <div className="text-lg md:text-xl font-semibold pt-2 pb-0.5">
                   Ali Hasan
                 </div>
-                <p className="text-[13px]  sm:text-[16px] text-(--text-muted)">
+                <p className="text-[13px] sm:text-[16px] text-(--text-muted)">
                   Frontend Developer
                 </p>
               </div>
             </div>
 
-            <SocialCard
-              icon={<Mail />}
-              title="Email"
-              value="developeralihasan777@gmail.com"
-            />
-            <SocialCard
-              icon={<Linkedin />}
-              title="LinkedIn"
-              value="1.5K+ Followers"
-            />
-            <SocialCard
-              icon={<Dribbble />}
-              title="Dribbble"
-              value="100k Shots View"
-            />
-            <SocialCard
-              icon={<Instagram />}
-              title="Instagram"
-              value="1K+ Followers"
-            />
+            {contacts.map((item, idx) => (
+              <div
+                key={item.title}
+                ref={(el: HTMLDivElement | null) => {
+                  if (el) itemsRef.current[idx] = el;
+                }}
+              >
+                <SocialCard {...item} />
+              </div>
+            ))}
           </div>
           <div className="col-span-2 bg-(--bg-primary)/80 rounded-2xl p-8 shadow-xl">
             <form
@@ -304,62 +314,16 @@ function ContactComponent() {
                   options={filterCountry}
                   error={errors.get("country")}
                 />
-
-                <div className="w-full space-y-2">
-                  <label className="block text-sm text-(--text-primary)">
-                    Phone Number <span className="text-red-600">*</span>
-                  </label>
-
-                  <div className="relative" ref={countryRef}>
-                    <div className="w-full px-4 py-2.5 rounded-lg bg-(--bg-primary) border border-(--border-secondary) focus:outline-none focus:border-(--border-secondary) text-sm auto-fill flex items-center">
-                      <div
-                        className="flex items-center gap-1.5 cursor-pointer select-none"
-                        onClick={() => setOpenCountryList((prev) => !prev)}
-                      >
-                        <Image
-                          src={selectedCountry.flag}
-                          width={100}
-                          height={100}
-                          alt={selectedCountry.name}
-                          className="w-8 h-6 rounded object-contain"
-                        />
-                        <ChevronDown
-                          className={
-                            openCountryList ? "rotate-180" : "rotate-0"
-                          }
-                        />
-                      </div>
-
-                      <div className="ml-3 flex items-center">
-                        <span className="text-sm sm:text-base">
-                          {form.dialCode}
-                        </span>
-                        <input
-                          type="text"
-                          name="phone"
-                          value={form.phone}
-                          onChange={(e) => {
-                            const onlyNumbers = e.target.value.replace(
-                              /[^0-9]/g,
-                              ""
-                            );
-                            setForm((prev) => ({
-                              ...prev,
-                              phone: onlyNumbers,
-                            }));
-                          }}
-                          className="bg-transparent focus:outline-none text-white w-full text-sm sm:text-base"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {errors.get("phone") && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.get("phone")}
-                    </p>
-                  )}
-                </div>
+                <InputField
+                  label="Phone Number"
+                  placeholder="Your phone number"
+                  name="phone"
+                  type="text"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  error={errors.get("phone")}
+                  required
+                />
               </div>
               <InputField
                 label="Write your plan’s brief here"
@@ -404,30 +368,28 @@ function ContactComponent() {
   );
 }
 
-function SocialCard({
-  icon,
-  title,
-  value,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  value: string;
-}) {
+function SocialCard(item: ContactItem) {
+  const Icon = item.icon;
   return (
-    <div className="group flex items-center justify-between p-4 rounded-xl bg-(--bg-primary)/90 hover:bg-(--bg-primary) transition cursor-pointer">
+    <a
+      href={item.link || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-center justify-between p-4 rounded-xl bg-(--bg-primary)/90 hover:bg-(--bg-primary) transition cursor-pointer"
+    >
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-lg bg-(--bg-primary)/10 flex items-center justify-center text-(--text-muted)">
-          {icon}
+          <Icon />
         </div>
         <div>
-          <p className="text-sm text-(--text-muted)">{title}</p>
+          <p className="text-sm text-(--text-muted)">{item.title}</p>
           <p className="text-white font-medium min-w-0 max-w-full grid grid-cols-1 wrap-break-word">
-            {value}
+            {item.value}
           </p>
         </div>
       </div>
       <ArrowRight className="text-(--text-muted) group-hover:translate-x-1 transition" />
-    </div>
+    </a>
   );
 }
 

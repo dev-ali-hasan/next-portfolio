@@ -18,7 +18,7 @@ export default function InputField({
 
   return (
     <div className="space-y-2 w-full">
-      <label htmlFor={name} className="block text-sm text-(--text-primary)">
+      <label htmlFor={name} className="block text-[12px] sm:text-[16px] text-(--text-primary)">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </label>
