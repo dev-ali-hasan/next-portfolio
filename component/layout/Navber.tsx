@@ -223,7 +223,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        <button className="border border-(--border-primary) text-(--text-tertiary) px-4 py-1 rounded-md">
+        <button className="hidden lg:block border border-(--border-primary) text-(--text-tertiary) px-4 py-1 rounded-md">
           Resume
         </button>
         <button className="lg:hidden" onClick={() => setOpen((v) => !v)}>
