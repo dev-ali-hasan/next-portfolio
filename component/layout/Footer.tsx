@@ -1,4 +1,5 @@
 "use client";
+import { handleScroll } from "@/utils/handleScroll";
 import {
   Facebook,
   Github,
@@ -45,10 +46,13 @@ const FooterComponent = () => {
       </div>
 
       <div className="container pt-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12"> 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div className="space-y-6 lg:col-span-2">
             <div className="flex items-center gap-5">
-              <Image src="/logo.svg" alt="logo" width={60} height={60} />
+              <a href="#" onClick={(e) => handleScroll(e, "#")}>
+                <Image src="/logo.svg" alt="logo" width={48} height={48} />
+              </a>
+
               <div>
                 <h2 className="text-3xl font-bold bg-linear-to-r from-(--text-tertiary)  to-[#9ED83F] bg-clip-text text-transparent">
                   Ali Hasan
@@ -118,23 +122,17 @@ const FooterComponent = () => {
             <ul className="space-y-3 text-[12px] md:text-[16px]">
               <li>
                 <a
-                  href="#"
+                  href="#about"
+                  onClick={(e) => handleScroll(e, "#about")}
                   className="text-(--text-muted) hover:text-(--text-tertiary) transition-colors text-sm hover:translate-x-1 inline-block"
                 >
-                  Projects
+                  About
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
-                  className="text-(--text-muted) hover:text-(--text-tertiary) transition-colors text-sm hover:translate-x-1 inline-block"
-                >
-                  Case Studies
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
+                  href="#services"
+                  onClick={(e) => handleScroll(e, "#services")}
                   className="text-(--text-muted) hover:text-(--text-tertiary) transition-colors text-sm hover:translate-x-1 inline-block"
                 >
                   Services
@@ -142,15 +140,35 @@ const FooterComponent = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#why-me"
+                  onClick={(e) => handleScroll(e, "#why-me")}
                   className="text-(--text-muted) hover:text-(--text-tertiary) transition-colors text-sm hover:translate-x-1 inline-block"
                 >
-                  About Me
+                  Why Me
                 </a>
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#project"
+                  onClick={(e) => handleScroll(e, "#project")}
+                  className="text-(--text-muted) hover:text-(--text-tertiary) transition-colors text-sm hover:translate-x-1 inline-block"
+                >
+                  Projects
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#review"
+                  onClick={(e) => handleScroll(e, "#review")}
+                  className="text-(--text-muted) hover:text-(--text-tertiary) transition-colors text-sm hover:translate-x-1 inline-block"
+                >
+                  Review
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  onClick={(e) => handleScroll(e, "#contact")}
                   className="text-(--text-muted) hover:text-(--text-tertiary) transition-colors text-sm hover:translate-x-1 inline-block"
                 >
                   Contact
@@ -181,13 +199,26 @@ const FooterComponent = () => {
                 onClick={handleSubmit}
                 className="w-full bg-linear-to-r from-(--bg-tertiary)  to-[#9ED83F]/80 text-(--text-primary) py-3 rounded-xl font-medium hover:shadow-xl hover:shadow-[#9ED83F]/10 transition-all duration-300 text-[12px] md:text-[16px]"
               >
-                {subscribed ? <span className="flex items-center justify-center gap-3"><Loader className="w-5 h-5 animate-spin"/> Loading...</span> : "Subscribe"}
+                {subscribed ? (
+                  <span className="flex items-center justify-center gap-3">
+                    <Loader className="w-5 h-5 animate-spin" /> Loading...
+                  </span>
+                ) : (
+                  "Subscribe"
+                )}
               </button>
             </div>
           </div>
         </div>
         <div className="flex items-center justify-center w-full">
-          <Image src="/footerImage.png" alt="logo" width={1040} height={200} />
+          <a href="#" onClick={(e) => handleScroll(e, "#")}>
+            <Image
+              src="/footerImage.png"
+              alt="logo"
+              width={1040}
+              height={200}
+            />
+          </a>
         </div>
       </div>
     </footer>

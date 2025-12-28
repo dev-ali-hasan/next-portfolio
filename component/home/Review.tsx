@@ -145,7 +145,7 @@ export default function ReviewComponent() {
       className="pt-20 lg:pt-36 pb-20 bg-(--bg-secondary) space-y-10 overflow-hidden"
       id="review"
     >
-      <div className="text-center container px-4 pb-14">
+      <div className="text-center container pb-10">
         <div className="relative inline-block ">
           <div className="absolute -top-10 -left-16">
             <svg
@@ -199,7 +199,7 @@ export default function ReviewComponent() {
         <div className="pointer-events-none absolute left-0 top-0 w-full h-24 bg-linear-to-b from-(--bg-secondary) to-transparent z-20" />
         <div className="pointer-events-none absolute left-0 bottom-0 w-full h-24 bg-linear-to-t from-(--bg-secondary) to-transparent z-20" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 h-full">
           <div className="overflow-hidden relative h-full px-6 sm:px-0">
             <div ref={col1Ref} className="flex flex-col gap-6">
               {renderReviews(col1)}
@@ -210,7 +210,7 @@ export default function ReviewComponent() {
               {renderReviews(col2)}
             </div>
           </div>
-          <div className="overflow-hidden relative h-full hidden lg:block">
+          <div className="overflow-hidden relative h-full hidden xl:block">
             <div ref={col3Ref} className="flex flex-col gap-6 px-6 sm:px-0">
               {renderReviews(col3)}
             </div>

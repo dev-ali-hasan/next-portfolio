@@ -77,9 +77,9 @@ const Experience = () => {
   }, []);
 
   return (
-    <section className="py-20 px-4 relative bg-(--bg-primary)">
+    <section className="py-8 md:py-12 lg:py-20 relative bg-(--bg-secondary)">
       <div className="container">
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-16">
           <div className="flex items-center justify-center gap-4 mb-2">
             <div className="h-[2px] w-16 bg-(--border-primary)"></div>
             <span
@@ -101,7 +101,7 @@ const Experience = () => {
 
         <div className="relative">
           <div
-            className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-(--border-primary)"
+            className="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-(--border-secondary)"
             style={{ height: lineHeight }}
           ></div>
 
@@ -131,7 +131,7 @@ const Experience = () => {
                           idx % 2 === 0
                             ? "-right-[20px] rounded-bl-none!"
                             : "-left-[20px] rounded-br-none!"
-                        } items-center gap-2 px-3 py-1.5 rounded-md whitespace-nowrap border border-(--border-primary) bg-(--bg-primary) text-(--text-tertiary)`}
+                        } items-center gap-2 px-3 py-1.5 rounded-md whitespace-nowrap border border-(--border-secondary) bg-(--bg-primary) text-(--text-tertiary)`}
                       >
                         <Calendar className="w-3 h-3" />
                         <span className="text-xs sm:text-[16px]">
@@ -150,27 +150,29 @@ const Experience = () => {
                           idx % 2 === 0
                             ? "md:rounded-tr-none!"
                             : "md:rounded-tl-none!"
-                        } bg-transparent border-2 border-(--border-primary) rounded-xl mt-8`}
+                        } border border-(--border-secondary) rounded-xl mt-4 md:mt-8  bg-(--bg-primary)`}
                       >
-                        <div className="flex items-start gap-2 mb-3">
-                          <Briefcase className="w-4 h-4 text-(--text-tertiary) mt-1 shrink-0" />
-                          <div className="text-xl font-bold text-(--text-primary)">
-                            {exp.title}
+                        <div className="flex sm:items-start flex-col md:flex-row mb-3">
+                          <div className="flex sm:items-start gap-3 mb-3">
+                            <Briefcase className="w-4 h-4 text-(--text-tertiary) mt-1 shrink-0" />
+                            <div className="text-lg md:text-2xl font-bold text-(--text-primary)">
+                              {exp.title}
+                            </div>
                           </div>
                           <div className="flex md:hidden items-center gap-2 mt-1 text-(--text-tertiary)">
                             <Calendar className="w-3 h-3 " />
-                            <span className="text-xs sm:text-[16px]">
+                            <span className="text-xs sm:text-[16px] md:text-lg">
                               {exp.date}
                             </span>
                           </div>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-2 mb-4 text-xs sm:text-[16px]">
+                        <div className="flex flex-wrap sm:items-center flex-col sm:flex-row gap-2 mb-4 text-xs sm:text-[16px] md:text-lg">
                           <span className="text-(--text-muted) ">
                             {exp.company} - {exp.location}
                           </span>
 
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded font-medium bg-(--bg-tertiary) text-(--text-primary)">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded font-medium bg-(--bg-tertiary) text-(--text-primary) text-xs sm:text-[16px] md:text-lg w-fit">
                             <MapPin className="w-3 h-3" />
                             {exp.isOnsite ? "Onsite" : "Remote"}
                           </span>
@@ -180,7 +182,7 @@ const Experience = () => {
                           {exp.details.map((detail, detailIdx) => (
                             <li
                               key={detailIdx}
-                              className="text-(--text-muted) text-xs sm:text-[16px] leading-relaxed flex items-start gap-2"
+                              className="text-(--text-muted) text-xs sm:text-[16px] md:text-lg leading-relaxed flex items-start gap-2"
                             >
                               <span className="text-(--text-tertiary) text-xl -mt-1 shrink-0">
                                 •

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { Menu, X } from "lucide-react";
 import gsap from "gsap";
 import Image from "next/image";
+import { handleScroll } from "@/utils/handleScroll";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -11,26 +12,32 @@ export default function Navbar() {
 
   const navRef = useRef<HTMLElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const linksRef = useRef<HTMLAnchorElement[]>([]);
-  const resumeBtnRef = useRef<HTMLButtonElement | null>(null);
+  const linksRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const resumeBtnMobileRef = useRef<HTMLButtonElement | null>(null);
 
-  const tlMenu = useRef<gsap.core.Timeline | null>(null);
+  const animRef = useRef<gsap.core.Timeline | null>(null);
 
-  const sectionIds = ["home", "about", "services", "review", "contact"];
+  const menuItems = [
+    { name: "About", href: "#about", id: "about" },
+    { name: "Services", href: "#services", id: "services" },
+    { name: "Why Me", href: "#why-me", id: "why-me" },
+    { name: "Projects", href: "#projects", id: "projects" },
+    { name: "Review", href: "#review", id: "review" },
+    { name: "Contact", href: "#contact", id: "contact" },
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries.find((element) => element.isIntersecting);
+        const visible = entries.find((e) => e.isIntersecting);
         if (visible) setActive(visible.target.id);
       },
       { threshold: 0.6 }
     );
 
-    sectionIds.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
+    menuItems.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
     });
 
     return () => observer.disconnect();
@@ -40,91 +47,131 @@ export default function Navbar() {
     if (!menuRef.current) return;
 
     gsap.set(menuRef.current, {
+      display: "none",
       height: 0,
       opacity: 0,
-      display: "none",
       pointerEvents: "none",
+      overflow: "hidden",
     });
   }, []);
 
-  useEffect(() => {
-    if (!menuRef.current) return;
+  const openMenu = () => {
+    const menu = menuRef.current;
+    if (!menu) return;
 
-    tlMenu.current?.kill();
+    animRef.current?.kill();
 
-    tlMenu.current = gsap.timeline({ paused: true });
+    gsap.set(menu, {
+      display: "block",
+      height: 0,
+      opacity: 1,
+      pointerEvents: "auto",
+      overflow: "hidden",
+    });
 
-    tlMenu.current
-      .to(menuRef.current, {
-        display: "block",
-        height: "auto",
-        opacity: 1,
-        pointerEvents: "auto",
-        duration: 0.35,
-        ease: "power2.out",
-      })
-      .fromTo(
-        linksRef.current,
-        { x: -20, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          stagger: 0.08,
-          duration: 0.3,
+    requestAnimationFrame(() => {
+      const targetHeight = menu.scrollHeight;
+
+      animRef.current = gsap
+        .timeline()
+        .to(menu, {
+          height: targetHeight,
+          duration: 0.35,
           ease: "power2.out",
-        },
-        "-=0.2"
-      )
-      .fromTo(
-        resumeBtnMobileRef.current,
-        { y: 10, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.25,
-          ease: "power2.out",
-        },
-        "-=0.2"
-      )
-      .eventCallback("onReverseComplete", () => {
-        gsap.set(menuRef.current, {
+        })
+        .fromTo(
+          linksRef.current.filter(Boolean),
+          { x: -20, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            stagger: 0.08,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          "-=0.2"
+        )
+        .fromTo(
+          resumeBtnMobileRef.current,
+          { y: 10, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.25,
+            ease: "power2.out",
+          },
+          "-=0.25"
+        )
+        .add(() => {
+          gsap.set(menu, { height: "auto", overflow: "visible" });
+        });
+    });
+  };
+
+  const closeMenu = () => {
+    const menu = menuRef.current;
+    if (!menu) return;
+
+    animRef.current?.kill();
+
+    gsap.set(menu, {
+      height: menu.offsetHeight,
+      overflow: "hidden",
+      pointerEvents: "none",
+    });
+
+    animRef.current = gsap.timeline().to(menu, {
+      height: 0,
+      opacity: 0,
+      duration: 0.25,
+      ease: "power2.inOut",
+      onComplete: () => {
+        gsap.set(menu, {
+          display: "none",
           height: 0,
           opacity: 0,
-          display: "none",
           pointerEvents: "none",
+          overflow: "hidden",
         });
-      });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    open ? tlMenu.current.play() : tlMenu.current.reverse();
+        gsap.set(linksRef.current.filter(Boolean), { clearProps: "all" });
+        if (resumeBtnMobileRef.current) {
+          gsap.set(resumeBtnMobileRef.current, { clearProps: "all" });
+        }
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (open) openMenu();
+    else closeMenu();
+
+    return () => {
+      animRef.current?.kill();
+    };
   }, [open]);
 
   useEffect(() => {
-    const handleClick = (element: MouseEvent) => {
-      if (
-        open &&
-        menuRef.current &&
-        !menuRef.current.contains(element.target as Node)
-      ) {
-        setOpen(false);
-      }
+    const close = () => open && setOpen(false);
+
+    const clickHandler = (e: MouseEvent) => {
+      if (!navRef.current?.contains(e.target as Node)) close();
     };
 
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [open]);
+    const keyHandler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
 
-  useEffect(() => {
-    const onScroll = () => open && setOpen(false);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [open]);
+    window.addEventListener("scroll", close, { passive: true });
+    window.addEventListener("keydown", keyHandler);
+    document.addEventListener("mousedown", clickHandler);
 
-  useEffect(() => {
-    const onKey = (element: KeyboardEvent) => element.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", close);
+      window.removeEventListener("keydown", keyHandler);
+      document.removeEventListener("mousedown", clickHandler);
+    };
+  }, [open]);
 
   useEffect(() => {
     let startY = 0;
@@ -134,15 +181,14 @@ export default function Navbar() {
     };
 
     const touchEnd = (e: TouchEvent) => {
-      const endY = e.changedTouches[0].clientY;
-      if (endY - startY > 80) setOpen(false);
+      if (e.changedTouches[0].clientY - startY > 80) setOpen(false);
     };
 
     const menu = menuRef.current;
     if (!menu) return;
 
-    menu.addEventListener("touchstart", touchStart);
-    menu.addEventListener("touchend", touchEnd);
+    menu.addEventListener("touchstart", touchStart, { passive: true });
+    menu.addEventListener("touchend", touchEnd, { passive: true });
 
     return () => {
       menu.removeEventListener("touchstart", touchStart);
@@ -150,35 +196,26 @@ export default function Navbar() {
     };
   }, []);
 
-  const menuItems = [
-    // { name: "Home", href: "#home", id: "home" },
-    { name: "About", href: "#about", id: "about" },
-    { name: "Services", href: "#services", id: "services" },
-    { name: "Why Me", href: "#why-me", id: "why-me" },
-    { name: "Projects", href: "#projects", id: "projects" },
-    { name: "Review", href: "#review", id: "review" },
-    { name: "Contact", href: "#contact", id: "contact" },
-  ];
-
   return (
     <nav
       ref={navRef}
       className="fixed top-0 left-0 w-full z-50 backdrop-blur-md bg-(--bg-primary)/40 border-b border-(--border-secondary)"
     >
       <div className="container py-4 flex justify-between items-center">
-        <a href="#" className="cursor-pointer">
+        <a href="#" onClick={(e) => handleScroll(e, "#")}>
           <Image src="/logo.svg" alt="logo" width={48} height={48} />
         </a>
 
-        <div className="hidden md:flex items-center gap-8 text-[12px] sm:text-[16px] md:text-xl">
+        <div className="hidden lg:flex items-center gap-8 text-[12px] sm:text-[16px] md:text-xl">
           {menuItems.map((item) => (
             <a
-              key={item.id}
+              key={item.href}
               href={item.href}
+              onClick={(e) => {
+                handleScroll(e, item.href);
+              }}
               className={`hover:text-(--text-tertiary) ${
-                active === item.id
-                  ? "text-(--text-tertiary) font-semibold"
-                  : ""
+                active === item.id ? "text-(--text-tertiary) font-semibold" : ""
               }`}
             >
               {item.name}
@@ -186,38 +223,32 @@ export default function Navbar() {
           ))}
         </div>
 
-        <button
-          ref={resumeBtnRef}
-          className="hidden md:block border border-(--border-primary) text-(--text-tertiary) hover:bg-(--bg-tertiary) hover:text-(--text-primary) transition-all duration-300 px-4 py-0.5 rounded-md text-[12px] sm:text-[16px] md:text-xl cursor-pointer"
-        >
+        <button className="border border-(--border-primary) text-(--text-tertiary) px-4 py-1 rounded-md">
           Resume
         </button>
-
-        <button className="md:hidden" onClick={() => setOpen(!open)}>
+        <button className="lg:hidden" onClick={() => setOpen((v) => !v)}>
           {open ? <X /> : <Menu />}
         </button>
       </div>
 
       <div
         ref={menuRef}
-        className="overflow-hidden md:hidden bg-(--bg-primary)/70 border-t border-(--border-secondary)"
+        className="hidden overflow-hidden lg:hidden bg-(--bg-primary)/70 border-t border-(--border-secondary)"
       >
         <div className="px-5 py-4 space-y-4">
           {menuItems.map((item, index) => (
             <a
-              key={item.id}
+              key={item.href}
               ref={(element) => {
-                if (element) linksRef.current[index] = element;
+                linksRef.current[index] = element;
               }}
               href={item.href}
-              onClick={() => {
-                setActive(item.id);
+              onClick={(e) => {
+                handleScroll(e, item.href);
                 setOpen(false);
               }}
               className={`block ${
-                active === item.id
-                  ? "text-(--text-tertiary) font-semibold"
-                  : ""
+                active === item.id ? "text-(--text-tertiary) font-semibold" : ""
               }`}
             >
               {item.name}

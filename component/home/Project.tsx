@@ -17,39 +17,9 @@ function ProjectComponent() {
 
   useHoverAnimation({ titleRef, descriptionRef });
 
-  const getTechColor = (techName: string) => {
-    const colors: Record<string, string> = {
-      "Next.js": "bg-black border-white/30 text-white",
-      TypeScript: "bg-[#3178C6] border-[#3178C6] text-white",
-      "Tailwind Css": "bg-[#06B6D4] border-[#06B6D4] text-white",
-      "Node.js": "bg-[#339933] border-[#339933] text-white",
-      PostgreSQL: "bg-[#4169E1] border-[#4169E1] text-white",
-      "Stripe API": "bg-[#635BFF] border-[#635BFF] text-white",
-      React: "bg-[#61DAFB] border-[#61DAFB] text-white",
-      Redux: "bg-[#764ABC] border-[#764ABC] text-white",
-      "Material-UI": "bg-[#007FFF] border-[#007FFF] text-white",
-      "Chart.js": "bg-[#FF6384] border-[#FF6384] text-white",
-      Express: "bg-[#000000] border-white/30 text-white",
-      MongoDB: "bg-[#023430] border-[#023430] text-white",
-      Prisma: "bg-[#2D3748] border-[#2D3748] text-white",
-      tRPC: "bg-[#398CCB] border-[#398CCB] text-white",
-      "AWS SES": "bg-[#FF9900] border-[#FF9900] text-black",
-      "Redux Toolkit": "bg-[#593D88] border-[#593D88] text-white",
-      "Vue.js": "bg-[#5E8DEC] border-[#5E8DEC] text-white",
-      PrimeVue: "bg-[#41B883] border-[#41B883] text-white",
-      "Pinia Store": "bg-[#FFD451] border-[#FFD451] text-black",
-      Composer: "bg-[#885630] border-[#885630] text-white",
-      "And Design": "bg-[#61DAFB]/50 border-[#61DAFB]/50 text-white",
-      Flowbite: "bg-[#040B1E] border-[#040B1E] text-white",
-    };
-
-    return (
-      colors[techName as string] || "bg-white/5 border-white/10 text-white"
-    );
-  };
-
   return (
     <div
+      id="projects"
       className="w-full bg-(--bg-primary) text-(--text-primary) relative overflow-hidden"
       style={{ backgroundImage: "url('/gradientColorCenter.svg')" }}
     >
@@ -72,7 +42,7 @@ function ProjectComponent() {
         />
       </div>
 
-      <div className="container relative z-10 py-20 px-4">
+      <div className="container relative z-10 py-8 md:py-12 lg:py-20 px-4">
         <div className="flex items-center justify-between flex-col md:flex-row gap-5 pb-8 md:pb-16">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -158,7 +128,7 @@ function ProjectComponent() {
         >
           {projectsList.map((project) => (
             <SwiperSlide key={project.title} className="section-slider-card">
-              <div className="h-full flex flex-col border border-(--border-primary) rounded-2xl overflow-hidden slider-card">
+              <div className="h-full flex flex-col border border-(--border-secondary) rounded-2xl overflow-hidden slider-card">
                 <div className="relative overflow-hidden slider-image">
                   <Image
                     src={project.path}
@@ -180,14 +150,12 @@ function ProjectComponent() {
                     <p className="text-(--text-tertiary) font-semibold mb-4 text-[12px] sm:text-[16px] uppercase">
                       Tech Stack
                     </p>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-2">
                       {project.techName.map((tech, idx) => {
                         return (
                           <span
                             key={idx}
-                            className={`px-4 py-1.5 rounded-lg text-[12px] sm:text-[16px] font-medium transition-all duration-300 hover:scale-105 shadow-lg ${getTechColor(
-                              tech
-                            )}`}
+                            className="px-5 py-2 rounded-xl border border-(--border-secondary) bg-(--bg-secondary) text-(--text-muted) text-[12px] sm:text-[16px]"
                           >
                             {tech}
                           </span>

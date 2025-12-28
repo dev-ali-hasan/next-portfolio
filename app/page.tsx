@@ -10,7 +10,7 @@ import WhyMeSection from "@/component/home/WhyMeSection";
 import { SplitText } from "gsap/all";
 import gsap from "gsap";
 import Experience from "@/component/home/Expreience";
-import  ServicesSection  from "@/component/home/ServicesSection";
+import ServicesSection from "@/component/home/ServicesSection";
 import WorkStyleSection from "@/component/home/WorkStyleSection";
 
 gsap.registerPlugin(SplitText);

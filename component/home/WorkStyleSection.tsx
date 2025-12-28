@@ -2,6 +2,7 @@
 
 import { workStyles } from "@/content/workStyles";
 import useHoverAnimation from "@/hooks/useHoverAnimation";
+import { handleScroll } from "@/utils/handleScroll";
 import gsap from "gsap";
 import { useLayoutEffect, useRef } from "react";
 
@@ -44,9 +45,9 @@ function WorkStyleSection() {
   }, []);
 
   return (
-    <section className="relative w-full py-10 md:py-24 px-4 md:px-8 bg-(--bg-secondary)">
-      <div className="max-w-6xl mx-auto text-(--text-primary)">
-        <div className="space-y-4 mb-10 text-center">
+    <section className="relative w-full py-8 md:py-12 lg:py-20 bg-(--bg-secondary)">
+      <div className="container max-w-6xl mx-auto text-(--text-primary) bg-(--bg-secondary)">
+        <div className="space-y-4 mb-8 md:mb-10 text-center">
           <span
             ref={titleRef}
             className="text-xl sm:text-3xl md:text-5xl font-bold block text-center"
@@ -62,7 +63,7 @@ function WorkStyleSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 bg-(--bg-secondary)">
           {workStyles.map((style, idx) => {
             const Icon = style.icon;
             return (
@@ -71,7 +72,7 @@ function WorkStyleSection() {
                 ref={(el: HTMLDivElement | null) => {
                   if (el) itemsRef.current[idx] = el;
                 }}
-                className="relative group bg-(--bg-tertiary)/10 hover:bg-(--bg-tertiary)/20 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-(--border-secondary) transition-all duration-300 overflow-hidden"
+                className="relative group bg-(--bg-tertiary)/10 rounded-xl p-6 md:p-8 border border-(--border-secondary) transition-all duration-300 overflow-hidden"
               >
                 <div className="absolute top-4 right-4 text-6xl font-bold text-(--text-tertiary)/30 group-hover:text-(--text-tertiary)/50 transition-colors">
                   {style.number}
@@ -83,16 +84,33 @@ function WorkStyleSection() {
                   </div>
 
                   <div className="space-y-3">
-                    <div className="text-2xl font-bold">{style.title}</div>
-                    <p className="text-(--text-muted) leading-relaxed text-lg">
+                    <div className="text-lg md:text-2xl font-bold">
+                      {style.title}
+                    </div>
+                    <p className="text-(--text-muted) leading-relaxed text-[12px] sm:text-[16px] md:text-lg">
                       {style.description}
                     </p>
                   </div>
+                  <div className="flex gap-2 md:gap-4 flex-wrap mt-4 md:mt-8">
+                    <a
+                      onClick={(e) => handleScroll(e, "#contact")}
+                      className="px-5 py-2 rounded-xl border border-(--border-primary) text-(--text-tertiary) text-[12px] sm:text-[16px] hover:bg-(--bg-tertiary) hover:text-(--text-primary) transition-colors duration-300 ease-in-out cursor-pointer"
+                    >
+                      Get in Touch
+                    </a>
+
+                    <a
+                      href="https://wa.me/8801783228430"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2 rounded-xl border border-(--border-primary) text-(--text-tertiary) text-[12px] sm:text-[16px] hover:bg-(--bg-tertiary) hover:text-(--text-primary) transition-colors duration-300 ease-in-out cursor-pointer"
+                    >
+                      Chat on WhatsApp
+                    </a>
+                  </div>
                 </div>
 
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-1 bg-(--bg-tertiary) opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                ></div>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-(--bg-tertiary) opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
             );
           })}

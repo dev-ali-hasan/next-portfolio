@@ -40,8 +40,8 @@ body {
   font-family: var(--font-primary);
 }
 .container {
-  width: (1400px, 90%);
-  margin: 0 auto;
+  width: 90%;
+  margin: auto;
 }
 
 .about_svg {
@@ -131,6 +131,9 @@ body {
     transparent 60%
   );
   animation: glowMove 20s linear infinite;
+}
+.js-enabled .mobile-menu {
+  display: none;
 }
 
 @keyframes glowMove {

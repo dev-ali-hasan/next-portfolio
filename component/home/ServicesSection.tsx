@@ -34,8 +34,8 @@ function ServicesSection() {
           duration: 0.8,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: item, 
-            start: "top 85%", 
+            trigger: item,
+            start: "top 85%",
             toggleActions: "play none none none",
           },
         }
@@ -48,11 +48,11 @@ function ServicesSection() {
   }, []);
 
   return (
-    <section className="relative w-full py-10 md:py-24 px-4 md:px-8 bg-(--bg-primary)">
+    <section id="services" className="relative w-full py-8 md:py-12 lg:py-20 bg-(--bg-primary)">
       <div className="absolute inset-0 bg-linear-to-br from-[#9ED83F]/20 via-blue-500/10 to-(--bg-tertiary)/50" />
 
       <div className="container relative z-10">
-        <div className="space-y-4 mb-16 text-center">
+        <div className="space-y-4 mb-8 md:mb-16 text-center">
           <span
             ref={titleRef}
             className="text-xl sm:text-3xl md:text-5xl font-bold"
@@ -62,14 +62,14 @@ function ServicesSection() {
 
           <p
             ref={descriptionRef}
-            className="text-center text-[12px] sm:text-[16px] md:text-xl text-(--text-muted) max-w-4xl mx-auto"
+            className="text-center text-[12px] sm:text-[16px] md:text-xl text-(--text-muted) max-w-4xl mx-auto mt-4"
           >
             Comprehensive frontend development services tailored to your project
             needs. From UI implementation to full-stack solutions.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1  md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-8">
           {services.map((service, idx) => (
             <CardSection
               key={service.title}

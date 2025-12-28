@@ -99,7 +99,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div className="w-full py-12 md:py-20 px-4 bg-(--bg-secondary)">
+    <div id="about" className="w-full py-8 md:py-12 lg:py-20 bg-(--bg-secondary)">
       <div className="container">
         <div className="flex items-center flex-col">
           <span
@@ -122,7 +122,7 @@ export default function AboutPage() {
         <div className="sm:mt-5 lg:mt-12 flex flex-col lg:flex-row  gap-10">
           <div
             ref={imgRef}
-            className="w-full lg:w-[35%] p-6 bg-(--bg-primary) rounded-2xl shadow-lg h-fit mt-20"
+            className="w-full lg:w-[35%] p-6 bg-(--bg-primary) rounded-2xl shadow-lg h-fit mt-10 lg:mt-20"
           >
             <div
               ref={imgRef}
@@ -147,12 +147,12 @@ export default function AboutPage() {
           </div>
 
           <div className="w-full lg:w-[65%]">
-            <div ref={tabsRef} className="flex flex-wrap gap-3 mb-6">
+            <div ref={tabsRef} className="flex flex-wrap gap-2 md:gap-3 mb-6">
               {(["personal", "professional", "education"] as TabKey[]).map(
                 (tab) => (
                   <button
                     key={tab}
-                    className={`px-3 py-1 sm:px-5 md:px-10 sm:py-2 rounded-2xl sm:rounded-4xl text-[12px] sm:text-[16px] md:text-xl font-medium text-(--text-tertiary) transition duration-300 cursor-pointer border  border-(--border-primary) flex items-center gap-1 sm:gap-3 hover:text-(--text-primary)  ${
+                    className={`px-3 py-1 sm:px-5 xl:px-10 sm:py-2 rounded-2xl sm:rounded-4xl text-[12px] sm:text-[16px] md:text-xl font-medium text-(--text-tertiary) transition duration-300 cursor-pointer border  border-(--border-primary) flex items-center gap-1 sm:gap-3 hover:text-(--text-primary)  ${
                       activeTab === tab
                         ? "bg-(--bg-tertiary)/70 text-(--text-primary)! hover:bg-(--bg-tertiary) "
                         : "hover:bg-(--bg-tertiary)"
@@ -182,7 +182,7 @@ export default function AboutPage() {
                   <div className="text-xl md:text-2xl font-semibold">
                     {item.title}
                   </div>
-                  <p className="text-(--text-muted) text-[12px] sm:text-[16px]">
+                  <p className="text-(--text-muted) text-[12px] sm:text-[16px] md:text-lg">
                     {item.discretion}
                   </p>
                 </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import gsap from "gsap";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
   Mail,
@@ -195,7 +194,10 @@ function ContactComponent() {
   }, []);
 
   return (
-    <div className=" w-full min-h-screen py-20 px-4 relative bg-[url('/heroSection.svg')] bg-cover bg-center bg-no-repeat bg-(--bg-secondary) text-(--text-primary)">
+    <div
+      id="contact"
+      className=" w-full min-h-screen py-8 md:py-12 lg:py-20 relative bg-[url('/heroSection.svg')] bg-cover bg-center bg-no-repeat bg-(--bg-secondary) text-(--text-primary)"
+    >
       <div className="container space-y-10">
         <div className=" flex items-center flex-col">
           <div className="flex items-center justify-center gap-2 mb-3 w-fit ">
@@ -230,7 +232,7 @@ function ContactComponent() {
             and I’ll get back
           </p>
         </div>
-        <div className="grid grid-cols-1 xl:grid-cols-3 xl:gap-4">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-2 xl:gap-4">
           <div
             ref={leftRef}
             className="bg-(--bg-primary)/80 rounded-2xl p-6 space-y-6 shadow-xl mb-4 h-full"
@@ -246,7 +248,7 @@ function ContactComponent() {
               </div>
               <div>
                 <div className="flex items-center justify-center gap-2 px-2 py-1 sm:px-5 sm:py-2 bg-(--bg-tertiary)/10 border border-(--border-primary) w-fit rounded-[70px] border-dashed text-sm">
-                  <span className="w-2.5 h-2.5 rounded-full bg-(--bg-tertiary) animate-pulse" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-(--bg-tertiary) animate-pulse text-[8px] sm:text-[16px]" />
                   Available To Work
                 </div>
                 <div className="text-lg md:text-xl font-semibold pt-2 pb-0.5">
@@ -383,7 +385,7 @@ function SocialCard(item: ContactItem) {
         </div>
         <div>
           <p className="text-sm text-(--text-muted)">{item.title}</p>
-          <p className="text-white font-medium min-w-0 max-w-full grid grid-cols-1 wrap-break-word">
+          <p className="text-white font-medium min-w-0 max-w-full grid grid-cols-1 wrap-break-word text-[12px] sm:text-[16px]">
             {item.value}
           </p>
         </div>

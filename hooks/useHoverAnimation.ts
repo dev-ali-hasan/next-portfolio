@@ -11,9 +11,8 @@ type Props = {
   descriptionRef: React.RefObject<HTMLDivElement | null>;
 };
 
-function wrapWordsPreserveHTML(element: HTMLElement, className: string) {
+export function wrapWordsPreserveHTML(element: HTMLElement, className: string) {
   const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null);
-
   const textNodes: Text[] = [];
   let node: Node | null;
 
@@ -42,19 +41,36 @@ function wrapWordsPreserveHTML(element: HTMLElement, className: string) {
   });
 }
 
-function wrapCharsPreserveHTML(element: HTMLElement, className: string) {
-  const text = element.innerText;
-  element.innerHTML = "";
+export function wrapCharsPreserveHTML(element: HTMLElement, className: string) {
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null);
+  const textNodes: Text[] = [];
+  let node: Node | null;
 
-  text.split("").forEach((char) => {
-    const span = document.createElement("span");
-    span.className = className;
-    span.textContent = char === " " ? "\u00A0" : char;
-    element.appendChild(span);
+  while ((node = walker.nextNode())) {
+    if (node.nodeValue?.length) {
+      textNodes.push(node as Text);
+    }
+  }
+
+  textNodes.forEach((textNode) => {
+    const chars = textNode.nodeValue!.split("");
+    const fragment = document.createDocumentFragment();
+
+    chars.forEach((char) => {
+      const span = document.createElement("span");
+      span.className = className;
+      span.textContent = char === " " ? "\u00A0" : char;
+      fragment.appendChild(span);
+    });
+
+    textNode.parentNode?.replaceChild(fragment, textNode);
   });
 }
 
-export default function useHoverAnimation({ titleRef, descriptionRef }: Props) {
+export default function useHoverAnimation({
+  titleRef,
+  descriptionRef,
+}: Props) {
   useEffect(() => {
     if (!titleRef.current || !descriptionRef.current) return;
 

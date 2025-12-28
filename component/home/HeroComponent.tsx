@@ -6,6 +6,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import { MessageSquareCode } from "lucide-react";
 import hoverEffect from "hover-effect";
 import HoverItem from "../share/HoverImage";
+import { handleScroll } from "@/utils/handleScroll";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -128,7 +129,7 @@ export default function HeroComponent() {
         backgroundPosition: "center",
       }}
     >
-      <div className="container grid lg:grid-cols-2 gap-14 items-center pt-24 pb-20 lg:pt-56 lg:pb-44">
+      <div className="container grid grid-cols-1 xl:grid-cols-2 gap-14 items-center pt-28 md:pt-32 pb-24 lg:pt-44 lg:pb-32 xl:pt-56 xl:pb-44">
         <div ref={leftRef}>
           <div className="text-(--text-tertiary) text-[12px] md:text-[16px] mb-4 bg-(--bg-tertiary)/10 w-fit px-6 py-1.5 rounded-4xl border border-(--border-tertiary) flex items-center gap-2">
             <MessageSquareCode className="animate-pulse text-(--icon-primary) w-5 h-5 " />{" "}
@@ -155,10 +156,13 @@ export default function HeroComponent() {
           </p>
 
           <div ref={buttonsRef} className="flex gap-4 flex-wrap mt-8">
-            <button className="px-5 py-2 rounded-md bg-(--bg-tertiary) text-(--text-primary) text-[12px] sm:text-[16px] cursor-pointer">
+            <a
+              onClick={(e) => handleScroll(e, "#contact")}
+              className="px-5 py-2 rounded-xl bg-(--bg-tertiary) text-(--text-primary) text-[12px] sm:text-[16px] cursor-pointer"
+            >
               Contact Me
-            </button>
-            <button className="px-5 py-2 rounded-md border border-(--border-primary) text-(--text-tertiary) text-[12px] sm:text-[16px] hover:bg-(--bg-tertiary) hover:text-(--text-primary) transition-colors duration-300 ease-in-out cursor-pointer">
+            </a>
+            <button className="px-5 py-2 rounded-xl border border-(--border-primary) text-(--text-tertiary) text-[12px] sm:text-[16px] hover:bg-(--bg-tertiary) hover:text-(--text-primary) transition-colors duration-300 ease-in-out cursor-pointer">
               View Project
             </button>
           </div>
@@ -177,28 +181,27 @@ export default function HeroComponent() {
               css="rounded-full"
               intensity={0.4}
             />
+            <span
+              ref={vueRef}
+              className="absolute top-10 -right-14 md:-right-20 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md text-[12px] sm:text-[16px]"
+            >
+              Vue.js
+            </span>
+
+            <span
+              ref={nextRef}
+              className="absolute bottom-10 -left-16 md:-left-24 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md text-[12px] sm:text-[16px]"
+            >
+              Next.js
+            </span>
+
+            <span
+              ref={reactRef}
+              className="absolute -bottom-10 md:-bottom-16 right-30 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md text-[12px] sm:text-[16px]"
+            >
+              React.js
+            </span>
           </div>
-
-          <span
-            ref={vueRef}
-            className="absolute top-10 right-1 sm:right-8 md:right-24 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md text-[12px] sm:text-[16px]"
-          >
-            Vue.js
-          </span>
-
-          <span
-            ref={nextRef}
-            className="absolute bottom-10 left-1 sm:left-8 md:left-24 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md text-[12px] sm:text-[16px]"
-          >
-            Next.js
-          </span>
-
-          <span
-            ref={reactRef}
-            className="absolute -bottom-10 sm:bottom-0 right-30 bg-(--bg-tertiary)/5 text-(--text-tertiary) text-sm px-3 py-1 border border-(--border-tertiary) rounded-md text-[12px] sm:text-[16px]"
-          >
-            React.js
-          </span>
         </div>
       </div>
     </section>
